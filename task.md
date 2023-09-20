@@ -1,4 +1,4 @@
-# Tâche à effectuer :
+# Tâches à effectuer :
 
 ## Implement the calculation of the 1D-HO solutions (along the z-axis, using the recurrence relation)
 
