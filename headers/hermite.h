@@ -46,7 +46,7 @@ public:
    * @param n
    * @param z
    */
-  void fillPolynomeHermite(unsigned int, arma::vec);
+  arma::mat fillPolynomeHermite(unsigned int, arma::vec);
 };
 
 #endif // HERMITE_H
