@@ -15,15 +15,30 @@
 class Hermite {
 public:
   /**
-   * the n & z value given by the user
+   * the n value given by the user
    */
   int n;
-  float z;
+
+  /*
+   * all the z values (they will be computed at the same time)
+   */
+  arma::vec z;
+
+  /*
+   * this matrix contains
+   * [
+   * [z0_computed z1_computed z2_computed z3_computed] n=0
+   * [z0_computed z1_computed z2_computed z3_computed] n=1
+   * [z0_computed z1_computed z2_computed z3_computed] n=2
+   * ]
+   *
+   */
+  arma::mat polynomeMat;
 
   /**
    * @brief this class contains the initial value of N and Z
    */
-  Hermite(unsigned int, float);
+  Hermite(unsigned int, arma::vec);
 
   /**
    * @brief compute the value of the hermite's polynome
@@ -31,7 +46,7 @@ public:
    * @param n
    * @param z
    */
-  float polynomeHermite(unsigned int, float);
+  void fillPolynomeHermite(unsigned int, arma::vec);
 };
 
 #endif // HERMITE_H
