@@ -1,5 +1,6 @@
 /**
  * @file hermite.h
+ * @author Lapu Matthias
  */
 
 #ifndef HERMITE_H
@@ -14,18 +15,10 @@
  */
 class Hermite {
 public:
-  /**
-   * the n value given by the user
-   */
   int n;
-
   int getN();
-  /*
-   * all the z values (they will be computed at the same time)
-   */
   arma::vec z;
 
-  arma::vec getZ();
   /*
    * this matrix contains
    * [
@@ -33,26 +26,41 @@ public:
    * [z0_computed z1_computed z2_computed z3_computed] n=1
    * [z0_computed z1_computed z2_computed z3_computed] n=2
    * ]
-   *
+   * it will contains the value of the hermite's polynome for each z
    */
   arma::mat polynomeMat;
 
+  /**
+   * @brief get the vector of z
+   *
+   * @return arma::vec
+   */
+  arma::vec getZ();
+
+  /**
+   * @brief set the vector of z
+   *
+   * @param arma::vec
+   * @return arma::vec
+   */
+  void setZ(arma::vec);
+
+  /**
+   * @brief get the matrix of the hermite's polynome
+   *
+   * @return arma::mat
+   */
   arma::mat getPolynomeMat();
 
   /**
-   * @brief this class contains the initial value of N and Z
+   * @brief this class contains the initial value of N and the vector Z
    */
   Hermite(unsigned int, arma::vec);
 
   /**
    * @brief compute the value of the hermite's polynome
-   *
-   * @param n
-   * @param z
    */
-  void fillPolynomeHermite(unsigned int, arma::vec);
-
-  arma::vec vectorOfZComputed();
+  void fillPolynomeHermite();
 };
 
 #endif // HERMITE_H
