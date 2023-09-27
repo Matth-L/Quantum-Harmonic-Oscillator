@@ -19,11 +19,13 @@ public:
    */
   int n;
 
+  int getN();
   /*
    * all the z values (they will be computed at the same time)
    */
   arma::vec z;
 
+  arma::vec getZ();
   /*
    * this matrix contains
    * [
@@ -34,6 +36,8 @@ public:
    *
    */
   arma::mat polynomeMat;
+
+  arma::mat getPolynomeMat();
 
   /**
    * @brief this class contains the initial value of N and Z
@@ -46,7 +50,9 @@ public:
    * @param n
    * @param z
    */
-  arma::mat fillPolynomeHermite(unsigned int, arma::vec);
+  void fillPolynomeHermite(unsigned int, arma::vec);
+
+  arma::vec vectorOfZComputed();
 };
 
 #endif // HERMITE_H
