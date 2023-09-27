@@ -1,7 +1,6 @@
+#include "../headers/solutions.h"
+#include <armadillo>
 
-class solutions
+Solutions::Solutions()
 {
-private:
-    /* data */
-public:
 };
