@@ -5,8 +5,8 @@ LIBS = -larmadillo
 TARGET = ../bin/out
 OBJDIR = obj/
 SRCDIR = src/
-HEADERS = headers/hermite.h
-OBJS = $(OBJDIR)hermite.o $(OBJDIR)main.o
+HEADERS = headers/hermite.h headers/solutions.h
+OBJS = $(OBJDIR)hermite.o $(OBJDIR)solutions.o $(OBJDIR)main.o
 
 .Phony: clear all
 
