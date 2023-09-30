@@ -5,10 +5,10 @@
 //The particle's mass
 float m = 1; //[MeV/c^2]
 
-//
+//hbar
 float hbar = 1;
 
-//
+//omega
 float omega = 1;
 
 //pi's value
