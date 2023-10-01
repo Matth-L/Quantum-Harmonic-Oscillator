@@ -1,9 +1,10 @@
 #include "../headers/hermite.h"
-#include"../headers/solutions.h"
+#include "../headers/solutions.h"
 
 int main()
 {
-  arma::mat sol = Solutions::solutions(2,-1,1,10);
+  Solutions x = Solutions();
+  arma::mat sol = x.solutions(2, -1, 1, 10);
   sol.print("result");
 
   // arma::vec input = {2, 3, 4, 5, 6, 7};

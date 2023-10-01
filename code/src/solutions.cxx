@@ -1,31 +1,14 @@
 #include "../headers/solutions.h"
 #include "../headers/hermite.h"
-#include <cmath>
+using namespace std;
 
-//The particle's mass
-float m = 1; //[MeV/c^2]
+// tgamma = (n-1) ! =>  tgamma(i+1) = i! sounds like overkill but why not might be faster
+// tgamma is a built in function
+// https://en.wikipedia.org/wiki/Gamma_function
 
-//hbar
-float hbar = 1;
+Solutions::Solutions(void){
 
-//omega
-float omega = 1;
-
-//pi's value
-float pi = 3.14159265358979323846;  
-
-/*******************************************************
- * @brief calculates the factorial of n
- *******************************************************/
-int factorial ( int n ) {
-    if ( n < 1){
-        return 1;
-    }
-    else {
-        return n * factorial (n -1);
-    }
-}
-
+};
 /*******************************************************
  * @brief Calcutate the solutions of the 1D quantum harmonic oscillator for 1 to n
  * Outputs a [n+1,number of z] matrix like the following:
@@ -36,23 +19,33 @@ int factorial ( int n ) {
  *  ...
  *  [ψn(z0), ψn​(z2),...,ψn(zp)] n=n
  * ]
- * @return arma::mat 
+ * @return arma::mat
  *******************************************************/
-arma::mat Solutions::solutions(unsigned int n, float start, float end,unsigned int increment){
-    arma::mat z = arma::linspace(start,end,increment);                                   //creates all the values for z
-    float cons = sqrt((m*omega)/hbar);
-    Hermite hermiteMat = Hermite(n, cons*z);                                             //creates the value of the Hermite polynomial
-    hermiteMat.fillPolynomeHermite();
-    
-    z = z.t();
-    arma::mat z2 = arma::pow(z,2);                                                      //z to the power of 2
-    arma::mat A = arma::mat(n+1,z.n_cols);                                              //A is the first part of the equation without Hn
-    for (unsigned int i = 0; i < n+1; i++){
-        A.row(i) = (1/(sqrt(pow(2,i) * factorial(i)))) * pow((m*omega)/(pi*hbar),0.25)
-                   * arma::exp(-((m*omega*z2)/(2*hbar)));                               //filling up the matrix
-    }
+arma::mat Solutions::solutions(unsigned int n, float start, float end, unsigned int increment)
+{
 
-    arma::mat sol = A % hermiteMat.getPolynomeMat().t();                                //calculates the actual solution
-    sol.insert_rows(0,z);                                                               //adding the z values to the solution
+    // creates all the values for z
+    arma::vec z = arma::linspace(start, end, increment);
+
+    float cons = sqrt((m * omega) / hbar);
+
+    // creates the value of the Hermite polynomial
+    Hermite hermiteMat = Hermite(n, cons * z);
+    hermiteMat.fillPolynomeHermite();
+
+    // z to the power of 2
+    arma::mat z2 = arma::pow(z, 2);
+
+    // A is the first part of the equation without Hn
+    arma::mat A = arma::mat(n + 1, z.n_cols);
+
+    // passer this pemet d'avoir accès aux constante du .H
+    // &z2 permet d'avoir accès à la valeur de z2 par référence
+    // utilisation de each row et d'une lambda function (https://www.cprogramming.com/c++11/c++11-lambda-closures.html)
+    int i = 0;
+    A.each_row([this, &z2, &i](arma::rowvec &a)
+               { a = (1 / (sqrt(pow(2, i) * tgamma(i + 1)))) * pow((m * omega) / (M_PI * hbar), 0.25) * arma::exp(-((m * omega * z2) / (2 * hbar))); i++; });
+    arma::mat sol = A % hermiteMat.getPolynomeMat().t(); // calculates the actual solution
+    sol.insert_rows(0, z);                               // adding the z values to the solution
     return sol;
 }
