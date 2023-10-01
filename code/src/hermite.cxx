@@ -4,6 +4,7 @@
  * @brief implementation of the hermite's polynome
  *******************************************************/
 #include "../headers/hermite.h"
+using namespace arma;
 
 /*******************************************************
  * @brief Construct a new Hermite:: Hermite object
@@ -11,7 +12,7 @@
  * @param nInput
  * @param zInput
  *******************************************************/
-Hermite::Hermite(unsigned int nInput, arma::vec zInput)
+Hermite::Hermite(unsigned int nInput, vec zInput)
 {
   n = nInput;
   z = zInput;
@@ -30,7 +31,7 @@ Hermite::Hermite(unsigned int nInput, float lowestValue, float highestValue, flo
   n = nInput;
 
   // linspace allows us to create a vector of float
-  z = arma::linspace(lowestValue, highestValue, increment);
+  z = linspace(lowestValue, highestValue, increment);
 };
 
 /*******************************************************
@@ -45,21 +46,21 @@ unsigned int Hermite::getN() { return n; };
  *
  * @return arma::vec
  *******************************************************/
-arma::vec Hermite::getZ() { return z; };
+vec Hermite::getZ() { return z; };
 
 /*******************************************************
  * @brief set the vector of z
  *
  * @param zInput
  *******************************************************/
-void Hermite::setZ(arma::vec zInput) { z = zInput; };
+void Hermite::setZ(vec zInput) { z = zInput; };
 
 /*******************************************************
  * @brief get the matrix of the hermite's polynome
  *
  * @return arma::mat
  *******************************************************/
-arma::mat Hermite::getPolynomeMat() { return polynomeMat; };
+mat Hermite::getPolynomeMat() { return polynomeMat; };
 
 /*******************************************************
  * @brief compute the value of the hermite's polynome
