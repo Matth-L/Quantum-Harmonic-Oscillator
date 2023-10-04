@@ -10,7 +10,7 @@ float hbar = 1;
 
 // omega
 float omega = 1;
-/*******************************************************
+/********************************************************
  * @brief Calcutate the solutions of the 1D quantum harmonic oscillator for 1 to n
  * Outputs a [n+1,number of z] matrix like the following:
  * [
