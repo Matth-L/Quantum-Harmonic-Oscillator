@@ -25,7 +25,7 @@ public:
      * @param int number of values
      * @return arma::mat
      *******************************************************/
-    arma::mat solutions(unsigned int, float, float, unsigned int);
+    static arma::mat solutions(unsigned int, float, float, unsigned int);
 };
 
 #endif // SOLUTIONS_H
