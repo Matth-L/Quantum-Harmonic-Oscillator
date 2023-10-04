@@ -8,11 +8,6 @@ class Solutions
 {
 
 public:
-    float m = 1;
-    float hbar = 1;
-    float omega = 1;
-    Solutions(void);
-
     /*******************************************************
      * @brief Calcutate the solutions of the 1D quantum harmonic oscillator for 1 to
      * Outputs a [n+1,number of z] matrix like the following:
