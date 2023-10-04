@@ -15,6 +15,5 @@ int main()
   // Result.print("result");
 
   sol.save("../bin/test.csv", csv_ascii);
-  system("python3 src/plot.py");
   return 0;
 }
