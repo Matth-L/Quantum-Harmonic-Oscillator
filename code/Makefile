@@ -8,7 +8,13 @@ SRCDIR = src/
 HEADERS = headers/hermite.h headers/solutions.h
 OBJS = $(OBJDIR)hermite.o $(OBJDIR)solutions.o $(OBJDIR)main.o
 
-.Phony: clear all
+
+TESTDIR = tests/
+NAMETESTS = hermiteTest
+TESTS = $(TESTDIR)hermiteTest.h
+CXXCC = cxxtestgen --error-printer
+
+.Phony: clear all tests
 
 all: $(TARGET)
 

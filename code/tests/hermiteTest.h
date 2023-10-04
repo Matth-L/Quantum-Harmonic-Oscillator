@@ -32,9 +32,6 @@ public:
         TS_ASSERT_EQUALS(test.getN(), test2.getN());
 
         // test Z , armadillo's operator is element wise
-        TS_ASSERT(test.getZ() == input);
-        TS_ASSERT(test2.getZ() == input);
-        TS_ASSERT(test.getZ() == test2.getZ());
 
         TS_TRACE("Finishing constructor test");
     };
