@@ -17,29 +17,47 @@ using namespace arma;
 
 class HermiteTest : public CxxTest::TestSuite
 {
-public:
-    vec input = {2, 3, 4, 5, 6, 7};
-    Hermite test = Hermite(7, input);
-    Hermite test2 = Hermite(7, 2, 7, 1);
+    public:
+        vec input = {2, 3, 4, 5, 6, 7};
 
-    void testConstructor(void)
-    {
-        TS_TRACE("Starting constructor test");
+        //those 2 Hermite's object are supposed to be the same
+        Hermite test = Hermite(7, input);
+        Hermite test2 = Hermite(7, 2, 7, 6);
 
-        // test N
-        TS_ASSERT_EQUALS(test.getN(), 7);
-        TS_ASSERT_EQUALS(test2.getN(), 7);
-        TS_ASSERT_EQUALS(test.getN(), test2.getN());
+        void testConstructor(void)
+        {
+            TS_TRACE("Starting constructor test");
 
-        // test Z , armadillo's operator is element wise
+            // test N
+            TS_ASSERT_EQUALS(test.getN(), 7);
+            TS_ASSERT_EQUALS(test2.getN(), 7);
+            TS_ASSERT_EQUALS(test.getN(), test2.getN());
 
-        TS_TRACE("Finishing constructor test");
-    };
+            TS_TRACE("N is ok");
 
-    void testFill(void)
-    {
-        // testing if the first values is a col of 1
+            // test Z
+            vec emptyTest = {};
 
-        // testing if the second value is 2z
-    }
+            // empty test
+            TS_ASSERT(size(test.getZ()) != size(emptyTest));
+            TS_ASSERT(size(test2.getZ()) != size(emptyTest));
+
+            // size of elements
+            TS_ASSERT((size(test.getZ()) == size(test2.getZ()) ));
+
+            // test to see if test1 = test 2
+            TS_ASSERT((test.getZ()!=test2.getZ()).is_zero());
+
+            TS_TRACE("Z is ok");
+
+
+            TS_TRACE("Finishing constructor test");
+        };
+
+        void testFill(void)
+        {
+            // testing if the first values is a col of 1
+
+            // testing if the second value is 2z
+        };
 };

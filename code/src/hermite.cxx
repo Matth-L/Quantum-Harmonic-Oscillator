@@ -24,14 +24,14 @@ Hermite::Hermite(unsigned int nInput, vec zInput)
  * @param nInput
  * @param lowestValue
  * @param highestValue
- * @param increment
+ * @param nbValue 
  *******************************************************/
-Hermite::Hermite(unsigned int nInput, float lowestValue, float highestValue, float increment)
+Hermite::Hermite(unsigned int nInput, float lowestValue, float highestValue, float nbValue)
 {
   n = nInput;
 
   // linspace allows us to create a vector of float
-  z = linspace(lowestValue, highestValue, increment);
+  z = linspace(lowestValue, highestValue, nbValue);
 };
 
 /*******************************************************

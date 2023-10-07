@@ -68,7 +68,7 @@ public:
    * @param int n
    * @param float lowest value
    * @param float higest value
-   * @param float increment
+   * @param float nbValue 
    *******************************************************/
   Hermite(unsigned int, float, float, float);
 
