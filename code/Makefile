@@ -9,7 +9,7 @@ SRCDIR = src/
 HEADERS = headers/hermite.h headers/solutions.h
 OBJS = $(OBJDIR)hermite.o $(OBJDIR)solutions.o $(OBJDIR)main.o
 
-.Phony: clear all
+.Phony: clean all
 
 all: $(TARGET)
 
@@ -19,6 +19,6 @@ $(TARGET): $(OBJS)
 $(OBJDIR)%.o: $(SRCDIR)%.cxx $(HEADERS)
 	$(CC) $(CXXFLAGS) $< -c -o $@
 
-clear:
+clean:
 	rm -f $(BINDIR)*
 	rm -f $(OBJS)
