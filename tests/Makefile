@@ -2,6 +2,7 @@ CC = g++ -std=c++11
 CXX = cxxtestgen --error-printer
 HEADERSDIR = ../code/headers/
 OBJDIR = obj/
+BINDIR = bin/
 HEADERS = $(HEADERSDIR)hermite.h 
 SRCDIR = ../code/src/
 HEADERSTEST = hermiteTest.h
@@ -9,7 +10,7 @@ HEADERSTEST = hermiteTest.h
 CXXTEST = hermiteTest.cpp
 OBJS= $(OBJDIR)hermite.o 
 OBJSTEST= $(OBJDIR)hermiteTest.o
-TARGET = test_Hermite
+TARGET = $(BINDIR)test_Hermite
 
 $(TARGET): $(OBJSTEST) $(OBJS)
 	$(CC) -o $@ $^
@@ -31,3 +32,5 @@ $(OBJDIR)%.o: %.cpp
 clean : 
 	rm -rf $(CXXTEST)
 	rm -rf $(OBJDIR)*.o
+	rm -rf $(TARGET)
+	
