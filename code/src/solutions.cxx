@@ -2,16 +2,54 @@
 #include "../headers/hermite.h"
 using namespace arma;
 
-// The particle's mass
-float m = 1; //[MeV/c^2]
+/**
+ * @brief Construct a new Solutions::solutions object
+ * 
+ * @param float m
+ * @param float hbar
+ * @param float omega
+ */
+Solutions::Solutions(float mInput, float hbarInput, float omegaInput)
+{
+  m = mInput;
+  hbar = hbarInput;
+  omega = omegaInput;
+}
 
-// hbar
-float hbar = 1;
+/**
+ * @brief Construct a new Solutions::solutions object
+ */
+Solutions::Solutions()
+{
+  m = 1;
+  hbar = 1;
+  omega = 1;
+}
 
-// omega
-float omega = 1;
-/********************************************************
+/**
+ * @brief get the particle's mass
+ * 
+ * @return float mass
+ */
+float Solutions::getM(){ return m;}
+
+/**
+ * @brief get hbar
+ * 
+ * @return float hbar
+ */
+float Solutions::getHbar(){ return hbar;}
+
+/**
+ * @brief get omega
+ * 
+ * @return float omega
+ */
+float Solutions::getOmega(){ return omega;}
+
+/**
  * @brief Calcutate the solutions of the 1D quantum harmonic oscillator for 1 to n
+ * using the given z values
  * Outputs a [n+1,number of z] matrix like the following:
  * [
  *  [z1, z2, ..., zp]
@@ -21,10 +59,8 @@ float omega = 1;
  *  [ψn(z0), ψn​(z2),...,ψn(zp)] n=n
  * ]
  * @return mat
- *******************************************************/
-mat Solutions::solutions(unsigned int n, float start, float end, unsigned int increment)
-{
-    mat z = linspace(start, end, increment); // creates all the values for z
+ */
+mat Solutions::solutions(unsigned int n, mat z){
     float cons = sqrt((m * omega) / hbar);
     Hermite hermiteMat = Hermite(n, cons * z); // creates the value of the Hermite polynomial
     hermiteMat.fillPolynomeHermite();
@@ -40,4 +76,28 @@ mat Solutions::solutions(unsigned int n, float start, float end, unsigned int in
     mat sol = A % hermiteMat.getPolynomeMat().t(); // calculates the actual solution
     sol.insert_rows(0, z);                         // adding the z values to the solution
     return sol;
+}
+
+/**
+ * @brief Calcutate the solutions of the 1D quantum harmonic oscillator for 1 to n.
+ * The method calculates the z values maching the parameters
+ * Outputs a [n+1,number of z] matrix like the following:
+ * [
+ *  [z1, z2, ..., zp]
+ *  [ψ0(z0), ψ0​(z2),...,ψ0(zp)] n=0
+ *  [ψ1(z0), ψ1​(z2),...,ψ1(zp)] n=1
+ *  ...
+ *  [ψn(z0), ψn​(z2),...,ψn(zp)] n=n
+ * 
+ * @param n 
+ * @param start 
+ * @param end 
+ * @param increment 
+ * @return mat 
+ */
+mat Solutions::solutions(unsigned int n, float start, float end, unsigned int increment)
+{
+    mat z = linspace(start, end, increment); // creates all the values for z
+    return Solutions::solutions(n,z);
+    
 }
