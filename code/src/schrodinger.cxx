@@ -77,7 +77,7 @@ mat Schrodinger::secondDerivative(mat psi)
     cout << value << endl;
     cout << dxSquared << endl;
 
-    sndDerivative = mat(n, value - 2);
+    sndDerivative = mat(n, value);
 
     // for each row , we are going to take 3 value at a time
     // and compute the second derivative
@@ -85,7 +85,9 @@ mat Schrodinger::secondDerivative(mat psi)
     int count;
     for (int i = 0; i < n; i++)
     {
-        count = 0;
+        sndDerivative(i, 0) = psi(i, 0);
+        sndDerivative(i, value - 1) = psi(i, value - 1);
+        count = 1;
         for (int j = 1; j < value - 1; j++)
         {
             sndDerivative(i, count) = (psi(i, j - 1) - 2 * psi(i, j) + psi(i, j + 1)) / dxSquared;
@@ -123,4 +125,16 @@ mat Schrodinger::psiZ_Squared(mat x)
 
     // fill a matrix with one
     return sol.solution;
+};
+
+mat Schrodinger::schrodinger1DEquation(mat psi, double hbar, double omega, double m)
+{
+    // get the second derivative
+    mat sndDerivative = secondDerivative(psi);
+
+    // get the z_hat
+    mat psiSquared = psiZ_Squared(psi);
+
+    // compute the schrodinger equation
+    return -hbar * hbar / (2 * m) * sndDerivative + 0.5 * m * omega * omega * psiSquared;
 };

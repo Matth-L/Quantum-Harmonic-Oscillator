@@ -56,6 +56,14 @@ public:
      * @return mat
      */
     mat psiZ_Squared(mat);
+
+    /**
+     * @brief  Compute the Schrödinger equation
+     *
+     * @param mat
+     * @return mat
+     */
+    mat schrodinger1DEquation(mat, double, double, double);
 };
 
 #endif // SCHRODINGER_H
