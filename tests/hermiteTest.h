@@ -1,19 +1,21 @@
-/*******************************************************
+/**
  * @file hermiteTest.h
  * @author Lapu Matthias
  * @brief the test class for hermite
- *******************************************************/
+ */
+#ifndef HERMITETEST_H
+#define HERMITETEST_H
 #include "hermite.h"
 #include <cxxtest/TestSuite.h>
 using namespace arma;
 
-/*******************************************************
+/**
  * Method to test
  * - the constructor (2 of them)
  * - the setZ method
  * - the getPolynomeMat method
  * - the fillPolynomeHermite method
- *******************************************************/
+ */
 
 class HermiteTest : public CxxTest::TestSuite
 {
@@ -85,3 +87,5 @@ public:
         TS_TRACE("Comparison test DONE");
     };
 };
+
+#endif

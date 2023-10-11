@@ -8,36 +8,38 @@ class Solutions
 {
 
 public:
-// The particle's mass
-float m; //[MeV/c^2]
-// hbar
-float hbar;
-// omega
-float omega;
+    // The particle's mass
+    float m; //[MeV/c^2]
+    // hbar
+    float hbar;
+    // omega
+    float omega;
+
+    arma::mat solution;
 
     /**
      * @brief get the particle's mass
-     * 
+     *
      * @return float mass
      */
     float getM();
 
     /**
      * @brief get hbar
-     * 
+     *
      * @return float hbar
      */
     float getHbar();
 
     /**
      * @brief get omega
-     * 
+     *
      * @return float omega
      */
     float getOmega();
     /**
      * @brief Construct a new Solutions::solutions object
-     * 
+     *
      * @param float m
      * @param float hbar
      * @param float omega
@@ -59,12 +61,12 @@ float omega;
      *  [ψ1(z0), ψ1​(z2),...,ψ1(zp)] n=1
      *  ...
      *  [ψn(z0), ψn​(z2),...,ψn(zp)] n=n
-     * 
-     * @param unsigned int n 
-     * @param float start 
-     * @param float end 
-     * @param unsigned int increment 
-     * @return mat 
+     *
+     * @param unsigned int n
+     * @param float start
+     * @param float end
+     * @param unsigned int increment
+     * @return mat
      */
     arma::mat solutions(unsigned int, float, float, unsigned int);
 
@@ -72,9 +74,9 @@ float omega;
      * @brief Calcutate the solutions of the 1D quantum harmonic oscillator for 1 to n
      * using the given z values
      * Outputs a [n+1,number of z] matrix like the following:
-     * @param unsigned int n 
+     * @param unsigned int n
      * @param mat z all the values for z
-     * @return mat 
+     * @return mat
      */
     arma::mat solutions(unsigned int, arma::mat);
 };

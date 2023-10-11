@@ -4,16 +4,16 @@ using namespace arma;
 
 /**
  * @brief Construct a new Solutions::solutions object
- * 
+ *
  * @param float m
  * @param float hbar
  * @param float omega
  */
 Solutions::Solutions(float mInput, float hbarInput, float omegaInput)
 {
-  m = mInput;
-  hbar = hbarInput;
-  omega = omegaInput;
+    m = mInput;
+    hbar = hbarInput;
+    omega = omegaInput;
 }
 
 /**
@@ -21,31 +21,40 @@ Solutions::Solutions(float mInput, float hbarInput, float omegaInput)
  */
 Solutions::Solutions()
 {
-  m = 1;
-  hbar = 1;
-  omega = 1;
+    m = 1;
+    hbar = 1;
+    omega = 1;
 }
 
 /**
  * @brief get the particle's mass
- * 
+ *
  * @return float mass
  */
-float Solutions::getM(){ return m;}
+float Solutions::getM()
+{
+    return m;
+}
 
 /**
  * @brief get hbar
- * 
+ *
  * @return float hbar
  */
-float Solutions::getHbar(){ return hbar;}
+float Solutions::getHbar()
+{
+    return hbar;
+}
 
 /**
  * @brief get omega
- * 
+ *
  * @return float omega
  */
-float Solutions::getOmega(){ return omega;}
+float Solutions::getOmega()
+{
+    return omega;
+}
 
 /**
  * @brief Calcutate the solutions of the 1D quantum harmonic oscillator for 1 to n
@@ -60,7 +69,8 @@ float Solutions::getOmega(){ return omega;}
  * ]
  * @return mat
  */
-mat Solutions::solutions(unsigned int n, mat z){
+mat Solutions::solutions(unsigned int n, mat z)
+{
     float cons = sqrt((m * omega) / hbar);
     Hermite hermiteMat = Hermite(n, cons * z); // creates the value of the Hermite polynomial
     hermiteMat.fillPolynomeHermite();
@@ -73,9 +83,9 @@ mat Solutions::solutions(unsigned int n, mat z){
         A.row(i) = (1 / (sqrt(pow(2, i) * tgamma(i + 1)))) * pow((m * omega) / (M_PI * hbar), 0.25) * exp(-((m * omega * z2) / (2 * hbar))); // filling up the matrix
     }
 
-    mat sol = A % hermiteMat.getPolynomeMat().t(); // calculates the actual solution
-    sol.insert_rows(0, z);                         // adding the z values to the solution
-    return sol;
+    solution = A % hermiteMat.getPolynomeMat().t(); // calculates the actual solution
+    solution.insert_rows(0, z);                     // adding the z values to the solution
+    return solution;
 }
 
 /**
@@ -88,16 +98,15 @@ mat Solutions::solutions(unsigned int n, mat z){
  *  [ψ1(z0), ψ1​(z2),...,ψ1(zp)] n=1
  *  ...
  *  [ψn(z0), ψn​(z2),...,ψn(zp)] n=n
- * 
- * @param n 
- * @param start 
- * @param end 
- * @param increment 
- * @return mat 
+ *
+ * @param n
+ * @param start
+ * @param end
+ * @param increment
+ * @return mat
  */
 mat Solutions::solutions(unsigned int n, float start, float end, unsigned int increment)
 {
     mat z = linspace(start, end, increment); // creates all the values for z
-    return Solutions::solutions(n,z);
-    
+    return Solutions::solutions(n, z);
 }

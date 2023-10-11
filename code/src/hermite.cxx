@@ -14,8 +14,8 @@ using namespace arma;
  */
 Hermite::Hermite(unsigned int nInput, vec zInput)
 {
-  n = nInput;
-  z = zInput;
+    n = nInput;
+    z = zInput;
 };
 
 /**
@@ -28,10 +28,10 @@ Hermite::Hermite(unsigned int nInput, vec zInput)
  */
 Hermite::Hermite(unsigned int nInput, float lowestValue, float highestValue, float nbValue)
 {
-  n = nInput;
+    n = nInput;
 
-  // linspace allows us to create a vector of float
-  z = linspace(lowestValue, highestValue, nbValue);
+    // linspace allows us to create a vector of float
+    z = linspace(lowestValue, highestValue, nbValue);
 };
 
 /**
@@ -39,50 +39,62 @@ Hermite::Hermite(unsigned int nInput, float lowestValue, float highestValue, flo
  *
  * @return unsigned int
  */
-unsigned int Hermite::getN() { return n; };
+unsigned int Hermite::getN()
+{
+    return n;
+};
 
 /**
  * @brief get the vector of z
  *
  * @return arma::vec
  */
-vec Hermite::getZ() { return z; };
+vec Hermite::getZ()
+{
+    return z;
+};
 
 /**
  * @brief set the vector of z
  *
  */
-void Hermite::setZ(vec zInput) { z = zInput; };
+void Hermite::setZ(vec zInput)
+{
+    z = zInput;
+};
 
 /**
  * @brief get the matrix of the hermite's polynome
  *
  * @return arma::mat
  */
-mat Hermite::getPolynomeMat() { return polynomeMat; };
+mat Hermite::getPolynomeMat()
+{
+    return polynomeMat;
+};
 
 /**
  * @brief compute the value of the hermite's polynome
  */
 void Hermite::fillPolynomeHermite()
 {
-  for (unsigned int n = 0; n <= getN(); n++)
-  {
-    if (n == 0)
+    for (unsigned int n = 0; n <= getN(); n++)
     {
-      // n=0 => H0 = 1
-      polynomeMat.insert_cols(n, ones(size(z)));
+        if (n == 0)
+        {
+            // n=0 => H0 = 1
+            polynomeMat.insert_cols(n, ones(size(z)));
+        }
+        else if (n == 1)
+        {
+            // n=1 => H1 = 2z
+            polynomeMat.insert_cols(n, 2 * z);
+        }
+        else
+        {
+            // n => Hn = 2zHn-1 - 2(n-1)Hn-2
+            polynomeMat.insert_cols(n, 2 * z % polynomeMat.col(n - 1) -
+                                    2 * (n - 1) * polynomeMat.col(n - 2));
+        }
     }
-    else if (n == 1)
-    {
-      // n=1 => H1 = 2z
-      polynomeMat.insert_cols(n, 2 * z);
-    }
-    else
-    {
-      // n => Hn = 2zHn-1 - 2(n-1)Hn-2
-      polynomeMat.insert_cols(n, 2 * z % polynomeMat.col(n - 1) -
-                                     2 * (n - 1) * polynomeMat.col(n - 2));
-    }
-  }
 };
