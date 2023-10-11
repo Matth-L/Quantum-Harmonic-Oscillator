@@ -6,8 +6,9 @@ TARGET = ../bin/out
 BINDIR = ../bin/
 OBJDIR = obj/
 SRCDIR = src/
-HEADERS = headers/hermite.h headers/solutions.h
-OBJS = $(OBJDIR)hermite.o $(OBJDIR)solutions.o $(OBJDIR)main.o
+HDIR = headers/
+HEADERS = $(HDIR)hermite.h $(HDIR)solutions.h $(HDIR)schrodinger.h
+OBJS = $(OBJDIR)hermite.o $(OBJDIR)solutions.o  $(OBJDIR)schrodinger.o $(OBJDIR)main.o
 
 .Phony: clean all
 
