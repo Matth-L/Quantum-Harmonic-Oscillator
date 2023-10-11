@@ -1,31 +1,31 @@
-/*******************************************************
+/**
  * @file hermite.cxx
  * @author Matthias Lapu
  * @brief implementation of the hermite's polynome
- *******************************************************/
+ */
 #include "../headers/hermite.h"
 using namespace arma;
 
-/*******************************************************
+/**
  * @brief Construct a new Hermite:: Hermite object
  *
  * @param nInput
  * @param zInput
- *******************************************************/
+ */
 Hermite::Hermite(unsigned int nInput, vec zInput)
 {
   n = nInput;
   z = zInput;
 };
 
-/*******************************************************
+/**
  * @brief Construct a new Hermite:: Hermite object
  *
  * @param nInput
  * @param lowestValue
  * @param highestValue
- * @param nbValue 
- *******************************************************/
+ * @param nbValue
+ */
 Hermite::Hermite(unsigned int nInput, float lowestValue, float highestValue, float nbValue)
 {
   n = nInput;
@@ -34,37 +34,36 @@ Hermite::Hermite(unsigned int nInput, float lowestValue, float highestValue, flo
   z = linspace(lowestValue, highestValue, nbValue);
 };
 
-/*******************************************************
+/**
  * @brief get the value of n
  *
  * @return unsigned int
- *******************************************************/
+ */
 unsigned int Hermite::getN() { return n; };
 
-/*******************************************************
+/**
  * @brief get the vector of z
  *
  * @return arma::vec
- *******************************************************/
+ */
 vec Hermite::getZ() { return z; };
 
-/*******************************************************
+/**
  * @brief set the vector of z
  *
- * @param zInput
- *******************************************************/
+ */
 void Hermite::setZ(vec zInput) { z = zInput; };
 
-/*******************************************************
+/**
  * @brief get the matrix of the hermite's polynome
  *
  * @return arma::mat
- *******************************************************/
+ */
 mat Hermite::getPolynomeMat() { return polynomeMat; };
 
-/*******************************************************
+/**
  * @brief compute the value of the hermite's polynome
- *******************************************************/
+ */
 void Hermite::fillPolynomeHermite()
 {
   for (unsigned int n = 0; n <= getN(); n++)
