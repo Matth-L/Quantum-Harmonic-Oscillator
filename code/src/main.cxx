@@ -14,6 +14,6 @@ int main()
   // arma::mat Result = test.getPolynomeMat();
   // Result.print("result");
 
-  sol.save("../bin/test.csv", csv_ascii);
+  sol.save("./bin/test.csv", csv_ascii);
   return 0;
 }
