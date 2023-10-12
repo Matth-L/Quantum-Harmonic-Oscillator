@@ -25,6 +25,39 @@ mat Schrodinger::getSndDerivative()
 // access matrix (row, column)
 
 /**
+ * @brief Compute the energie levels
+ *
+ * @param hbar
+ * @param omega
+ * @param n
+ * @return double
+ */
+double Schrodinger::energyLevels(double hbar, double omega, double n)
+{
+    return hbar * omega * (n + 0.5);
+};
+
+mat Schrodinger::psiZ_Squared(mat x)
+{
+    return x % x;
+};
+
+mat Schrodinger::schrodinger1DEquation(mat psi, double hbar, double omega, double m)
+{
+    // get the second derivative
+    mat sndDerivative = secondDerivative(psi);
+
+    // get the z_hat
+    mat psiSquared = psiZ_Squared(psi);
+
+    sndDerivative.shed_row(0);
+    psiSquared.shed_row(0);
+
+    // compute the schrodinger equation
+    return -hbar * hbar / (2 * m) * sndDerivative + 0.5 * m * omega * omega * psiSquared;
+};
+
+/**
  * @brief
  *
  * Goal
@@ -63,78 +96,30 @@ mat Schrodinger::getSndDerivative()
  */
 mat Schrodinger::secondDerivative(mat psi)
 {
-    // the pow function is slower than just doing x*x
-    // unless we use -ffast-math
-    double dxSquared = (psi(0, 1) - psi(0, 0)) * (psi(0, 1) - psi(0, 0));
+    // Compute the squared step size
+    double dxSquared = pow(psi(0, 1) - psi(0, 0), 2);
 
-    // number of iteration
+    // Get the number of rows and columns in the input matrix
     int n = psi.n_rows;
-
-    // number of value in a Vect
     int value = psi.n_cols;
 
-    cout << n << endl;
-    cout << value << endl;
-    cout << dxSquared << endl;
+    // Create a matrix to store the second derivative
+    mat sndDerivative(n, value);
 
-    sndDerivative = mat(n, value);
-
-    // for each row , we are going to take 3 value at a time
-    // and compute the second derivative
-    // using pointers reduce the overall computing time
-    int count;
+    // Compute the second derivative for each row of the input matrix
     for (int i = 0; i < n; i++)
     {
+        // Copy the first and last values of the row to the output matrix
         sndDerivative(i, 0) = psi(i, 0);
         sndDerivative(i, value - 1) = psi(i, value - 1);
-        count = 1;
+
+        // Compute the second derivative for the remaining values of the row
         for (int j = 1; j < value - 1; j++)
         {
-            sndDerivative(i, count) = (psi(i, j - 1) - 2 * psi(i, j) + psi(i, j + 1)) / dxSquared;
-            count++;
+            sndDerivative(i, j) = (psi(i, j - 1) - 2 * psi(i, j) + psi(i, j + 1)) / dxSquared;
         }
     }
 
+    // Return the second derivative matrix
     return sndDerivative;
-};
-
-/**
- * @brief Compute the energie levels
- *
- * @param hbar
- * @param omega
- * @param n
- * @return double
- */
-double Schrodinger::energyLevels(double hbar, double omega, double n)
-{
-    return hbar * omega * (n + 0.5);
-};
-
-mat Schrodinger::psiZ_Squared(mat x)
-{
-    int n = x.n_rows;
-    // vector only take cols
-    vec z = x.row(0).t();
-
-    // square Z
-    z = pow(z, 2);
-
-    Solutions sol = Solutions();
-    sol.solutions(n - 2, z);
-
-    // fill a matrix with one
-    return sol.solution;
-};
-
-mat Schrodinger::schrodinger1DEquation(mat psi, double hbar, double omega, double m)
-{
-    // get the second derivative
-    mat sndDerivative = secondDerivative(psi);
-
-    // get the z_hat
-    mat psiSquared = psiZ_Squared(psi);
-
-    // compute the schrodinger equation
-    return -hbar * hbar / (2 * m) * sndDerivative + 0.5 * m * omega * omega * psiSquared;
-};
+}
