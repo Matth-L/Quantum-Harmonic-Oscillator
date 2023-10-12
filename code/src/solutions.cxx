@@ -101,3 +101,36 @@ mat Solutions::solutions(unsigned int n, float start, float end, unsigned int in
     return Solutions::solutions(n,z);
     
 }
+
+float Solutions::verifOrthonormality(unsigned int p, unsigned int q)
+{
+    int deg = p + q;
+    int n = deg - deg % 10 + 10;    //finds the smaller multiple of ten above p + q
+
+    float C = (1 / (sqrt(pow(2, p) * tgamma(p + 1)))) * pow((m * omega) / (M_PI * hbar), 0.25)
+            * (1 / (sqrt(pow(2, q) * tgamma(q + 1)))) * pow((m * omega) / (M_PI * hbar), 0.25)
+            * sqrt(hbar / (m * omega));
+    mat A;
+    A.load("../code/data/nodes_weights", arma::csv_ascii);
+    mat x = A.row(n/5 - 2);    //nodes
+    mat w = A.row(n/5 - 1);    //weight
+
+    int i = 0;
+    while (i < (int) x.n_cols)
+    {
+        if (x(i) == 0)
+        {
+            break;
+        }
+        i++;
+    }
+
+    x.reshape(i,1);
+    w.reshape(i,1);
+
+
+    Hermite hermiteMat = Hermite(std::max(p,q), x); // creates the value of the Hermite polynomial
+    hermiteMat.fillPolynomeHermite();
+    mat H = w % hermiteMat.getPolynomeMat().col(p) % hermiteMat.getPolynomeMat().col(q);
+    return arma::accu(H)*C;
+}

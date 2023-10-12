@@ -1,8 +1,8 @@
 #ifndef SOLUTIONS_H
 #define SOLUTIONS_H
 #include <armadillo>
-#include <iostream>
 #include <cmath>
+#include <iostream>
 
 class Solutions
 {
@@ -77,6 +77,8 @@ float omega;
      * @return mat 
      */
     arma::mat solutions(unsigned int, arma::mat);
+
+    float verifOrthonormality(unsigned int, unsigned int);
 };
 
 #endif // SOLUTIONS_H
