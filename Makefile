@@ -1,14 +1,17 @@
 MAKE = make
 
-.PHONY: code doc clean
+.PHONY: code doc clean tests
 
-all: code doc
+all: code doc tests
 
 code:
 	$(MAKE) -C code
 
 doc:
 	$(MAKE) -C doc
+
+tests: 
+	$(MAKE) -C tests
 
 style : 
 	astyle -A1 --recursive *.cxx *.h
@@ -17,3 +20,4 @@ style :
 clean: 
 	$(MAKE) -C code clean
 	$(MAKE) -C doc clean
+	$(MAKE) -C tests clean

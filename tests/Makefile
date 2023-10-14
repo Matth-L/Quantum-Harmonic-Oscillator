@@ -3,17 +3,17 @@ CXX = cxxtestgen --error-printer
 HEADERSDIR = ../code/headers/
 OBJDIR = obj/
 BINDIR = bin/
-HEADERS = $(HEADERSDIR)hermite.h 
+HEADERS = $(HEADERSDIR)hermite.h $(HEADERSDIR)solutions.h
 SRCDIR = ../code/src/
-HEADERSTEST = hermiteTest.h
+HEADERSTEST = hermiteTest.h solutionsTest.h
 # le fichier intermédiaire généré par cxxtestgen
-CXXTEST = hermiteTest.cpp
-OBJS= $(OBJDIR)hermite.o 
-OBJSTEST= $(OBJDIR)hermiteTest.o
-TARGET = $(BINDIR)test_Hermite
+CXXTEST = test.cpp 
+OBJS= $(OBJDIR)hermite.o $(OBJDIR)solutions.o
+OBJSTEST= $(OBJDIR)test.o 
+TARGET = $(BINDIR)test 
 
 $(TARGET): $(OBJSTEST) $(OBJS)
-	$(CC) -o $@ $^
+	$(CC) -o $(BINDIR)test $(OBJDIR)test.o $(OBJDIR)hermite.o $(OBJDIR)solutions.o 
 
 #création du .o à partir des .h pour les HEADERS
 $(OBJDIR)%.o: $(SRCDIR)%.cxx $(HEADERSDIR)%.h
@@ -21,7 +21,7 @@ $(OBJDIR)%.o: $(SRCDIR)%.cxx $(HEADERSDIR)%.h
 
 # création du fichier cpp à partir du .h
 $(CXXTEST): $(HEADERSTEST)
-	$(CXX) -o $@ $< 
+	$(CXX) -o $@ $^
 
 #création du .o pour les cpp générés par cxxtestgen
 $(OBJDIR)%.o: %.cpp
@@ -30,7 +30,7 @@ $(OBJDIR)%.o: %.cpp
 .PHONY: all clean 
 
 clean : 
-	rm -rf $(CXXTEST)
+	rm $(CXXTEST)
 	rm -rf $(OBJDIR)*.o
 	rm -rf $(TARGET)
 	
