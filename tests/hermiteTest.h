@@ -78,12 +78,14 @@ public:
         TS_TRACE("first column test DONE");
 
         // testing if all the values are the same for test1 and test 2, due to floating point error, we use a tolerance
-        TS_TRACE("Starting comparison test");
+        TS_TRACE("Starting comparison test between similar object");
         const double tolerance = 1e-6;
         for (int i = 0; i < test.getN(); i++)
         {
             TS_ASSERT(arma::approx_equal(test.getPolynomeMat().col(i), test2.getPolynomeMat().col(i), "absdiff", tolerance));
         }
+        TS_TRACE("Comparison test DONE");
+        TS_TRACE("Starting comparison test with true value ");
         TS_TRACE("Comparison test DONE");
     };
 };

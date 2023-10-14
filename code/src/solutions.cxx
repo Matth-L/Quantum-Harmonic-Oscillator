@@ -83,6 +83,7 @@ mat Solutions::solutions(unsigned int n, mat z)
         A.row(i) = (1 / (sqrt(pow(2, i) * tgamma(i + 1)))) * pow((m * omega) / (M_PI * hbar), 0.25) * exp(-((m * omega * z2) / (2 * hbar))); // filling up the matrix
     }
 
+    mat solution;
     solution = A % hermiteMat.getPolynomeMat().t(); // calculates the actual solution
     solution.insert_rows(0, z);                     // adding the z values to the solution
     return solution;
