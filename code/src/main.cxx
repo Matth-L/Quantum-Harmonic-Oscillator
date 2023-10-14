@@ -8,7 +8,8 @@ using namespace arma;
 int main()
 {
     Solutions sol = Solutions();
-    mat res = sol.solutions(3, -10, 10, 6);
+    int n = 1;
+    mat res = sol.solutions(n, -5, 5, 100);
     cout << "solutions" << endl;
     cout << res << endl;
 
@@ -26,19 +27,14 @@ int main()
     cout << schrodingerEquation << endl;
 
     cout << "energy levels" << endl;
-    cout << x.energyLevels(1, 1, 2) << endl;
-
-    // we have a system : A = lambda * X , lambda is unknown
-    // we want to find the eigenvalues and eigenvectors of A
-
-    // A = Schrodinger equation
-    // lambda = energy levels
-    // X = psi
+    cout << x.energyLevels(1, 1, n - 1) << endl;
 
     res.shed_row(0);
     res.shed_col(0);
     res.shed_col(res.n_cols - 1);
-    mat energie = schrodingerEquation * inv(res);
+
+    mat energie = schrodingerEquation * pinv(res);
+    cout << sum(energie) << endl;
 
     res.save("../bin/test.csv", csv_ascii);
     return 0;

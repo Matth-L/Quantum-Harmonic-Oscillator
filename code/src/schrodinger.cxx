@@ -39,29 +39,19 @@ double Schrodinger::energyLevels(double hbar, double omega, double n)
 
 mat Schrodinger::psiZ_Squared(mat psi)
 {
-    // tout est élement wise
-    rowvec z = pow(psi.row(0), 2);
     psi.shed_row(0);
-    int n = psi.n_cols;
-    int m = psi.n_rows;
-    // c'est pas ce qu'il fallait faire
-    for (int i = 0; i < n; i++)
-    {
-        psi.col(i) *= z[i];
-    }
-    return psi;
+    psi.shed_col(0);
+    psi.shed_col(psi.n_cols - 1);
+    return (psi % psi);
 };
 
 mat Schrodinger::schrodinger1DEquation(mat psi, double hbar, double omega, double m)
 {
     // get the second derivative
     mat sndDerivative = secondDerivative(psi);
-    sndDerivative.shed_row(0);
 
     // get the z_hat
     mat psiSquared = psiZ_Squared(psi);
-    psiSquared.shed_col(psiSquared.n_cols - 1);
-    psiSquared.shed_col(0);
 
     return -hbar * hbar / (2 * m) * sndDerivative + 0.5 * m * omega * omega * psiSquared;
 };
@@ -93,7 +83,7 @@ mat Schrodinger::schrodinger1DEquation(mat psi, double hbar, double omega, doubl
  * F"(x) = ( F(x-dx) - 2F(x) + F(x+dx)) / ( dx^2 )
  *
  * @example For each value , starting at 1 we are doing :
- * ψ0​(z0) - 2*ψ0​(z1) + ψ0​(z2) / (ψ0​(z1) - ψ0​(z0))² = ψ0"(z0)
+ * ψ0​(z0) - 2*ψ0​(z1) + ψ0​(z2) / ((z1) - ​(z0))² = ψ0"(z0)
  * thus , we are not computing the first and last values
  * because they are used to compute the others
  * then we will put all the values in a matrix
@@ -125,6 +115,7 @@ mat Schrodinger::secondDerivative(mat psi)
         }
     }
 
+    sndDerivative.shed_row(0);
     // Return the second derivative matrix
     return sndDerivative;
 }
