@@ -23,3 +23,4 @@ $(OBJDIR)%.o: $(SRCDIR)%.cxx $(HEADERS)
 clean:
 	rm -f $(BINDIR)*
 	rm -f $(OBJS)
+	touch $(BINDIR)bin.txt

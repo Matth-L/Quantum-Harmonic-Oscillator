@@ -54,5 +54,6 @@ int main()
     printf("\n");
   }
 
+  sol.save("./bin/test.csv", csv_ascii);
   return 0;
 }

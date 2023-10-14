@@ -38,7 +38,22 @@ H_{1}(z) &= 2z \\
 Tout d'abord, il faut calculer les polynôme d'Hermite pour un ordre \f$n\f$ donné, voir hermite.h. Le résultat est stocké sous forme de tableau
 dans lequel chaque ordre inférieur ou égal à celui demandé est présent, avec des valeurs choisies, donc fixes, pour z.
 
-Ensuite, dans le fichier solution.h, on peut donc utiliser ce tableau et renvoyer un tableau avec en première ligne, les valeurs de z, puis
+Ensuite, dans le fichier solution.h, on peut donc utiliser ce tableau et renvoyer une matrice avec en première ligne, les valeurs de z, puis
 sur les lignes d'après: \f$\psi_{0}(z), \psi_{1}(z), \dots, \psi_{n}(z)\f$.
 
 Finalement, il ne reste plus qu'à exporter ces données pour les tracer !
+
+##Calcul de l'énergie
+
+Maintenant qu'on dispose des solutions, on peut calculer le membre de gauche de l'équation de Schrödinger:
+
+\f$-\frac{\hbar}{2m}\frac{d\Psi^{2}}{dx^{2}} + \frac{1}{2}mw^{2}\Psi^{2}\f$
+à l'aide de l'approximation de la dérivée seconde via la méthode des différences finies. Ici, \f$\Psi\f$ est la matrice venant de solution.h,
+l'opération \f$\Psi^2\f$ se faisant par éléments 2 à 2. 
+
+Ce qui nous donne une matrice \f$A\f$, la matrice hamiltonienne liée à ce système.
+
+On a donc \f$A = E\Psi\f$, avec \f$E\f$ qui est un vecteur qui possède \f$E_0,E_1,\dots, E_n\f$, les inconnues du système.
+On ne peut pas inverser \f$\Psi\f$, car non inversible en certains points.
+
+On peut, néanmoins, utiliser la fonction eig_pair d'armadillo pour obtenir une approximation des valeurs propres.
