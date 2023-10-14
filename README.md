@@ -28,7 +28,7 @@ This project uses the following libraries:
 for Debian distributions, you can install the libraries using the following command:
 
 ```bash
-sudo apt-get install libarmadillo-dev cxxtest python3-matplotlib build-essential
+sudo apt-get install libarmadillo-dev cxxtest python3-matplotlib build-essential astyle
 ```
 
 ## Installation
@@ -63,7 +63,10 @@ If you wish to compile the documentation only, run the following command:
 make doc
 ```
 
-The documentation will be generated in the doc folder. You can open the index.html file to see the documentation.
+The documentation will be generated in the doc folder. You can open the index.html file to see the documentation. Our class being in French, the documentation is written in French. e.g : 
+```bash 
+firefox doc/html/index.html
+```
 
 If you intend to clean the project, run the following command:
 ```bash
