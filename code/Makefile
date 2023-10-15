@@ -10,7 +10,7 @@ HDIR = headers/
 HEADERS = $(HDIR)hermite.h $(HDIR)solutions.h $(HDIR)schrodinger.h
 OBJS = $(OBJDIR)hermite.o $(OBJDIR)solutions.o  $(OBJDIR)schrodinger.o $(OBJDIR)main.o
 
-.Phony: clean all
+.Phony: clean all style 
 
 all: $(TARGET)
 
@@ -24,3 +24,7 @@ clean:
 	rm -f $(BINDIR)*
 	rm -f $(OBJS)
 	touch $(BINDIR)bin.txt
+
+style : 
+	astyle -A1 --recursive *.cxx *.h
+	find . -type f -name '*.orig' -delete

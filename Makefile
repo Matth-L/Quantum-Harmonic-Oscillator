@@ -1,6 +1,6 @@
 MAKE = make
 
-.PHONY: code doc clean tests
+.PHONY: code doc clean tests style 
 
 all: code doc tests
 
@@ -14,10 +14,10 @@ tests:
 	$(MAKE) -C tests
 
 style : 
-	astyle -A1 --recursive *.cxx *.h
+	astyle -A1 --recursive *.cxx *.h 
 	find . -type f -name '*.orig' -delete
 
 clean: 
 	$(MAKE) -C code clean
-	$(MAKE) -C doc clean
 	$(MAKE) -C tests clean
+	$(MAKE) -C doc clean
