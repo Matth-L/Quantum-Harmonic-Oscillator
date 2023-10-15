@@ -1,6 +1,6 @@
 /**
  * @file schrodinger.h
- * @author Matthias Lapu
+ * @author Matthias Lapu , Roméo Louati
  * @brief Resulting 1D-HO Schrödinger equation
  * @warning depends on solutions.h because we are using psi
  */
@@ -10,6 +10,10 @@
 #include <armadillo>
 using namespace arma;
 
+/**
+ * @brief Class handling the computation of the Schrödinger equation, and the energy level according to the formula
+ * 
+ */
 class Schrodinger
 {
 public:
@@ -49,18 +53,16 @@ public:
     double energyLevels(double, double, double);
 
     /**
-     * @brief Compute psi for the vector Z squared
+     * @brief Compute the position operator squared applied to psi
      * @warning we must use solution.h
      *
-     * @param mat
      * @return mat
      */
     mat psiZ_Squared(mat);
 
     /**
-     * @brief  Compute the Schrödinger equation
+     * @brief  Compute the Schrödinger equation (the left part)
      *
-     * @param mat
      * @return mat
      */
     mat schrodinger1DEquation(mat, double, double, double);

@@ -4,15 +4,27 @@
 #include <cmath>
 #include <iostream>
 
+/**
+ * @brief Class handling the math behind the solution and the verification for the orthonormality
+ * 
+ */
 class Solutions
 {
 
 public:
-    // The particle's mass
-    float m; //[MeV/c^2]
-    // hbar
+    /**
+    *@brief The particle's mass [MeV/c^2]
+    */
+    float m;
+    /**
+     * @brief value for hbar [MeV.fs]
+     * 
+     */
     float hbar;
-    // omega
+    /**
+     * @brief value for omega
+     * 
+     */
     float omega;
 
     /**
@@ -38,9 +50,6 @@ public:
     /**
      * @brief Construct a new Solutions::solutions object
      *
-     * @param float m
-     * @param float hbar
-     * @param float omega
      */
     Solutions(float, float, float);
 
@@ -59,11 +68,6 @@ public:
      *  [ψ1(z0), ψ1​(z2),...,ψ1(zp)] n=1
      *  ...
      *  [ψn(z0), ψn​(z2),...,ψn(zp)] n=n
-     *
-     * @param unsigned int n
-     * @param float start
-     * @param float end
-     * @param unsigned int increment
      * @return mat
      */
     arma::mat solutions(unsigned int, float, float, unsigned int);
@@ -72,8 +76,6 @@ public:
      * @brief Calcutate the solutions of the 1D quantum harmonic oscillator for 1 to n
      * using the given z values
      * Outputs a [n+1,number of z] matrix like the following:
-     * @param unsigned int n
-     * @param mat z all the values for z
      * @return mat
      */
     arma::mat solutions(unsigned int, arma::mat);
@@ -81,8 +83,6 @@ public:
     /**
      * @brief Verifies the orthogonality for the two given value for n
      *
-     * @param int
-     * @param int
      * @return float
      */
     float verifOrthonormality(unsigned int, unsigned int);

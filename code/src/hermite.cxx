@@ -12,7 +12,7 @@ using namespace arma;
  * @param nInput
  * @param zInput
  */
-Hermite::Hermite(unsigned int nInput, vec zInput)
+Hermite::Hermite(unsigned int nInput, arma::vec zInput)
 {
     n = nInput;
     z = zInput;
