@@ -58,12 +58,44 @@ main.checkout();
 m.merge();
 g.tag("v0.1.0");
 m.commit("Hermite 2.0");
+g.tag("v0.1.1");
+main.checkout();
+m.merge();
 m.checkout();
 r.merge();
 main.checkout();
 m.merge();
 a.commit("Calcul de la solution");
 a.merge();
+g.tag("v0.2.0");
+// ===== END =====
+
+// ===== gitExample1 =====
+cfg = configLarge;
+cfg.elementId = 'gitExample1';
+var g = new GitGraph(cfg);
+var main = g.branch("main");
+main.commit("Hey");
+g.tag("v0.2.0");
+var m = g.branch("matthias");
+var r = g.branch("romeo");
+var a = g.branch("amael");
+r.commit("Premier plot");
+m.commit("Test Hermite et Makefile de tests");
+r.commit("Documentation et mainpage");
+main.checkout();
+r.merge();
+g.tag("v0.3.0");
+m.commit("README.md");
+m.commit("Travail sur l'énergie");
+r.commit("Finitions de la documentation");
+a.commit("Orthonormalité de la solution");
+a.merge();
+m.merge();
+r.merge();
+g.tag("v0.5.0");
+main.commit("Tests Solution et Schrödinger");
+g.tag("v0.6.0");
 // ===== END =====
 
 // ===== branchHowto0 =====

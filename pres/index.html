@@ -52,8 +52,6 @@ class: animated fadeIn middle numbers
     2. Calcul de la solution
     3. Calcul de l'énergie
     4. Tests
-        1. Test des constructeurs
-        2. Test des propriétés 
 7. Choix et optimisations
 8. Résultats
 9. Conclusion
@@ -63,7 +61,8 @@ class: animated fadeIn middle numbers
 # Courte Introduction
 
 Ce projet porte sur **l'équation de Schrödinger**, en 1D et indépendante du temps:
-`$$\hat{H}_{(z)} \psi_{n}(z) = E_{n} \psi_{n}(z)$$`
+
+.alert[ `$$\hat{H}_{(z)} \psi_n(z) = E_n \psi_n(z)$$` ]
 
 La forme analytique de la solution est la suivante:
 `$$\psi_n(z) = \frac{1}{\sqrt{2^n n!}}\left(\frac{m\omega}{\pi\hbar}\right)^{1/4}e^{-\frac{m\omega z^2}{2\hbar}}H_n\left(\sqrt{\frac{m\omega}{\hbar}} . z\right)$$`
@@ -75,8 +74,8 @@ Et `$H_n$` est **le polynôme d'Hermite**, avec la relation de récurrence suiva
 
 ---
 
-
-# Arborescence
+# Structure du projet
+## Arborescence
 
 .alert.tree.hcenter[
 *projet*
@@ -99,7 +98,8 @@ Et `$H_n$` est **le polynôme d'Hermite**, avec la relation de récurrence suiva
 * README.md 
 ]
 ---
-# Choix des classes
+# Structure du projet
+## Choix des classes
 
 Différentes classes du projet:
 * Hermite
@@ -140,19 +140,11 @@ clean:
 	$(MAKE) -C tests clean
 
 ```
-
 ---
 # Chaîne de compilation  
 - make 
-      - code  
-      - doc 
-      - tests 
-      - style 
+      - **code** : 
 
----
-# Chaîne de compilation  
-- make 
-      - code : 
       Qui crée les fichiers objets et les exécutables.
       
 ---
@@ -160,7 +152,8 @@ clean:
 
 - make 
       - code
-      - doc : 
+      - **doc** : 
+
       Qui crée la documentation avec Doxygen.
 
 ---
@@ -169,7 +162,7 @@ clean:
 - make:
       - code
       - doc 
-      - tests
+      - **tests**
 
       Qui crée les fichiers objets et les exécutables de tests.
 ---
@@ -178,7 +171,7 @@ clean:
       - code
       - doc 
       - tests
-      - style 
+      - **style** 
 
       Qui formate le code avec astyle. Permettant d'avoir de la cohérence dans le code.
 
@@ -187,37 +180,34 @@ clean:
 
 En utilisant **doxygen**, on a obtenu la documentation présente dans **/doc/doxygen/html/index.html**:
 
-
+![](images/doxygenExample1.png)
 ---
 
-# Tests
+# Historique du git
 
-Des tests ont été fait entre objet pour tester leurs cohérences 
-
-```c++
-  TS_TRACE("Starting comparison test between same object ");
-  const double tolerance = 1e-6;
-  for (int i = 0; i < test.getN(); i++)
-  {
-      TS_ASSERT(arma::approx_equal(test.getPolynomeMat().col(i), test2.getPolynomeMat().col(i), "absdiff", tolerance));
-  }
-  TS_TRACE("Comparison test DONE");
-
-```
+.row[
+.column.middle.w30[
+.alert[Voici un résumé du projet du point de vue du git.]
+]
+.column.w65[
+<canvas id='gitExample0'></canvas>
+]
+]
 ---
-# Tests
 
-Des tests et avec des valeurs correctes pour tester leurs fonctionnement 
-
-```c++
-  TS_TRACE("Starting comparison test with true value ");
-
-  TS_TRACE("Comparison test DONE");
-
-```
-
+# Historique du git
+.row[
+.column.w65[
+<canvas id='gitExample1'></canvas>
+]
+.column.middle.w30[
+.block[Partie 2 et fin du projet.]
+]
+]
 ---
-# Hermite 
+
+# Présentation du projet
+## Hermite 
 
 `$H_n$` est **le polynôme d'Hermite**, avec la relation de récurrence suivante:
 `$$H_0(z) = 1$$`
@@ -225,7 +215,7 @@ Des tests et avec des valeurs correctes pour tester leurs fonctionnement
 `$$\forall n\ge 1, H_{n+1}(z) = 2zH_n(z)-2nH_{n-1}(z).$$`
 
 ---
-# Hermite 
+# Présentation du projet
 
 Armadillo rend cette récurrence courte et très efficace : 
 ```c++
@@ -253,20 +243,68 @@ void Hermite::fillPolynomeHermite()
 };
 ```
 ---
-# Hermite
+# Présentation du projet
 
+Matrice de polynômes d'Hermite :
 `$$\forall n\ge 1, H_{n+1}(z) = 2zH_n(z)-2nH_{n-1}(z).$$`
 
 ```c++
 polynomeMat.insert_cols(n, 2 * z % polynomeMat.col(n - 1) - 2 * (n - 1) * polynomeMat.col(n - 2));
 ```
 
-Dessin avec matrice ?? 
+| n=0   | n=1       | ... |                             n                                |
+|:-----:|:---------:|:---:|:------------------------------------------------------------:|
+|   1   |   2(z0)   | ... |`$$ H_{n+1}(z_0) = 2zH_n(z_0)-2nH_{n-1}(z_0)$$`               |
+|   1   |   2(z1)   | ... |`$$ H_{n+1}(z_1) = 2zH_n(z_1)-2nH_{n-1}(z_1)$$`               |
+|   1   |   2(z2)   | ... |`$$ H_{n+1}(z_2) = 2zH_n(z_2)-2nH_{n-1}(z_2)$$`               |
+| ...   |   ...     | ... |                             ...                              |
+|   1   |   2(z_n)  | ... |`$$ H_{n+1}(z_n) = 2zH_n(z_n)-2nH_{n-1}(z_n)$$`               |
+
 
 ---
+# Présentation du projet
+## Calcul de la solution 
 
-# Calcul de la solution 
+Rappel de l'équation de la solution:
 
+`$$\psi_n(z) = \frac{1}{\sqrt{2^n n!}}\left(\frac{m\omega}{\pi\hbar}\right)^{1/4}e^{-\frac{m\omega z^2}{2\hbar}}H_n\left(\sqrt{\frac{m\omega}{\hbar}} . z\right).$$`
+
+```c++
+mat Solutions::solutions(unsigned int n, mat z)
+{
+    float cons = sqrt((m * omega) / hbar);
+    Hermite hermiteMat = Hermite(n, cons * z); // creates the value of the Hermite polynomial
+    hermiteMat.fillPolynomeHermite();
+
+    z = z.t();
+    mat z2 = pow(z, 2);           // z to the power of 2
+    mat A = mat(n + 1, z.n_cols); // A is the first part of the equation without Hn
+    for (unsigned int i = 0; i < n + 1; i++)
+    {
+        A.row(i) = (1 / (sqrt(pow(2, i) * tgamma(i + 1)))) * pow((m * omega) / (M_PI * hbar), 0.25) 
+                    * exp(-((m * omega * z2) / (2 * hbar))); // filling up the matrix
+    }
+
+    mat solution;
+    solution = A % hermiteMat.getPolynomeMat().t(); // calculates the actual solution
+    solution.insert_rows(0, z);                     // adding the z values to the solution
+    return solution;
+}
+```
+---
+# Présentation du projet
+
+.row[
+.center[
+|   n    |   z1   |   z2   |   z3   |   ...   |   zn   | 
+|:------:|:------:|:------:|:------:|:-------:|:------:|
+|   0    | ψ0(z1) | ψ0(z2) | ψ0(z3) |   ...   | ψ0(zn) |
+|   1    | ψ1(z1) | ψ1(z2) | ψ1(z3) |   ...   | ψ1(zn) |
+|   ...  |   ...  |   ...  |   ...  |   ...   |   ...  |
+|   n    | ψn(z1) | ψn(z2) | ψn(z3) |   ...   | ψn(zn) |
+]
+
+]
 ---
 
 # Calcul de l'énergie 
@@ -280,361 +318,182 @@ Notre but est donc de vérifier si :
 `$$ - \frac{\hbar}{2m}\frac{d\psi_n^{2}}{d^{2}z} + \frac{1}{2}m\omega^{2}z^2\psi_n^{2} = E_n \psi_n $$`
 
 ---
+# Calcul de l'énergie 
 
-# Optimisation 
-
-tgamma code souce et optimisation 
-
----
-# :warning: important remark for firefox users
-
-Browsing a **local** `remark.js` presentation and some content does not work (asciinema...) ?
-
-1. go to *`about:config`*,
-
-2. search for the *`origin_policy`* pattern,
-
-3. set the property *`security.fileuri.strict_origin_policy`* to *`false`*.
-
-.hcenter.shadow.w80.animated.fadeInUp.wait1s[
-![](images/firefox_config.png)
-]
+## Approximation de la dérivée seconde 
 
 
----
+`$$ \frac{f(x+\partial x) - 2f(x) + f(x-\partial x)}{\partial x²} $$`
 
-class: toc top
-# Example of a table of content
 
-1. First section
 --
 
-  1. First subsection
---
-
-  2. Second subsection
---
-
-2. Second section
-  * First subsection
---
-
-2. Third section
-  1. First subsection
+Cependant, elle n'existe pas en c++.
 
 ---
+# Calcul de l'énergie 
 
-# :clipboard: Example of table
-
-## A table
-.hcenter[
-| Points                  | `git` | `doxygen` | `VTK` | `python` | `gdb` | `MPI` | `$\LaTeX$` | `LAPACK` |
-|:------------------------|:-----:|:---------:|:-----:|:--------:|:-----:|:-----:|:------------:|:--------:|
-| *0*. What ?             |       |           |       |          |       |       |              |          |
-| *1*. I tried it once... |       |           |       |          |       |       |              |          |
-| *2*. I use it.          |       |           |  :+:  |          |  :+:  |       |              |          |
-| *3*. I love it !        |  :+:  |    :+:    |       |   :+:    |       |  :+:  |      :+:     |    :+:   |
-]
-
-.hcenter[Centered caption]
-
-## Some math
-`$$\int_0^\infty f(x)e^{-x} dx \simeq \sum_{i=0}^{n-1}w_if(x_i)$$`
-
----
-
-# How to show a terminal capture or some code ?
-
-* Show a colored terminal capture with `gnome-terminal` "copy as HTML":
-
-<pre><code><font color="#FFFFFF">[</font><font color="#FFFD00">dubrayn</font><font color="#FFFFFF">@</font><font color="#23FD00">dell5290</font><font color="#FFFFFF">:</font><font color="#14FFFF">~</font><font color="#FFFFFF">]</font> <font color="#19CB00">duf</font>
-╭────────────────────────────────────────────────────────────────────────────────────────────────────╮
-│ 3 local devices                                                                                    │
-├────────────────────────┬────────┬────────┬─────────────────────┬──────────┬────────────────────────┤
-│ MOUNTED ON    │   SIZE │   USED │  AVAIL │         USE%        │ TYPE     │ FILESYSTEM             │
-├───────────────┼────────┼────────┼────────┼─────────────────────┼──────────┼────────────────────────┤
-│ <font color="#71BEF2">/</font>             │ 466.9G │ 347.8G │  <font color="#A8CC8C">95.3G</font> │ <font color="#DBAB79">[#######...]  74.5%</font> │ <font color="#B9BFCA">ext4</font>     │ <font color="#B9BFCA">/dev/ubuntu--vg/root</font>   │
-│ <font color="#71BEF2">/boot/efi</font>     │ 511.0M │   6.1M │ <font color="#E88388">504.9M</font> │ <font color="#A8CC8C">[..........]   1.2%</font> │ <font color="#B9BFCA">vfat</font>     │ <font color="#B9BFCA">/dev/nvme0n1p1</font>         │
-│ <font color="#71BEF2">/home/dubrayn</font> │ 466.9G │ 347.8G │  <font color="#A8CC8C">95.3G</font> │ <font color="#DBAB79">[#######...]  74.5%</font> │ <font color="#B9BFCA">ecryptfs</font> │ <font color="#B9BFCA">/home/dubrayn/.Private</font> │
-╰───────────────┴────────┴────────┴────────┴─────────────────────┴──────────┴────────────────────────╯
-╭──────────────────────────────────────────────────────────────────────────────────────╮
-│ 3 special devices                                                                    │
-├────────────────┬──────┬────────┬───────┬─────────────────────┬──────────┬────────────┤
-│ MOUNTED ON     │ SIZE │   USED │ AVAIL │         USE%        │ TYPE     │ FILESYSTEM │
-├────────────────┼──────┼────────┼───────┼─────────────────────┼──────────┼────────────┤
-│ <font color="#71BEF2">/dev</font>           │ 7.7G │     0B │  <font color="#DBAB79">7.7G</font> │                     │ <font color="#B9BFCA">devtmpfs</font> │ <font color="#B9BFCA">udev</font>       │
-│ <font color="#71BEF2">/run</font>           │ 1.5G │   2.3M │  <font color="#DBAB79">1.5G</font> │ <font color="#A8CC8C">[..........]   0.1%</font> │ <font color="#B9BFCA">tmpfs</font>    │ <font color="#B9BFCA">tmpfs</font>      │
-│ <font color="#71BEF2">/run/lock</font>      │ 5.0M │   4.0K │  <font color="#E88388">5.0M</font> │ <font color="#A8CC8C">[..........]   0.1%</font> │ <font color="#B9BFCA">tmpfs</font>    │ <font color="#B9BFCA">tmpfs</font>      │
-╰────────────────┴──────┴────────┴───────┴─────────────────────┴──────────┴────────────╯
-</code></pre>
-
-* Show some code with syntax highlighting:
-
-```python
-import sys
-
-print("Hello !")
-```
-
----
-
-class: middle
-# Example of an `asciinema` capture
-
-.hcenter[
-<asciinema-player src="scripts/example.cast"></asciinema-player>
-]
-
-:arrow_right: record your shell sessions with
-
-```shell
-$ asciinema rec
-```
----
-# Want to include some math ? (`$a=\frac{\sqrt{b^2}}{c}$`)
-
-You can include some **inline math** like **`$\sum_aw_a=4$`**, or centered equations like
-`$$\sum_k\frac{1}{k^2}=\frac{\pi^2}{6}.$$`
-Let us suppose that
-`$$M\equiv\left[\begin{array}{ccc}1&0&0\\0&0&1\\0&1&0\end{array}\right],$$`
-one can check that
-`$$M \neq M^tM.$$`
-
-----
-
-Final expression for `$a(x)$`:
-`$$a(x) = \frac{A_0}{1 + x^2}+O\left(x^{-3}\right).$$`
-
----
-
-class: top
-# Want some item lists ?
-
-A simple item list :
-* first element
-* second element
-* third element
-* last element
-
-A simple *enumerated* list (with pauses between items):
-1. :melon: melon
---
-
-1. :apple: apple
---
-
-1. :banana: banana
---
-
-1. :grapes: grapes
-
-Take a look at the markdown source to see that an exact numbering is not needed :
-```
-1. :melon: melon
---
-
-1. :apple: apple
---
-
-1. :banana: banana
---
-
-1. :grapes: grapes
-
-```
-
----
-
-# Some tables / blocks ?
-
-.hcenter[
-| Example table           | `git` | `doxygen` | `VTK` | `python` | `gdb` | `MPI` | `$\LaTeX$` | `LAPACK` |
-|:------------------------|:-----:|:---------:|:-----:|:--------:|:-----:|:-----:|:------------:|:--------:|
-| *0*. What ?             |       |           |       |          |       |       |              |          |
-| *1*. I tried it once... |       |           |       |          |       |       |              |          |
-| *2*. I use it.          |       |           |  :+:  |          |  :+:  |       |              |          |
-| *3*. I love it !        |  :+:  |    :+:    |       |   :+:    |       |  :+:  |      :+:     |    :+:   |
-]
-
-.hcenter[This is a serious table.]
-.block[ Some text in a box, with some math: `$$a=b$$` ]
-some text
-.alert[ Some important text in a box, with some math: `$$\pi \simeq 3.1415926535$$` ]
-
----
-
-class: middle
-
-# A chart with `mermaid.js`
-
-.mermaid[
-    sequenceDiagram
-        Alice->>+Bob: git clone
-        Bob-->>-Alice: cloning
-        Carol->>+Bob: git clone
-        Bob-->>-Carol: cloning
-				Note over Alice: commits
-				Note over Carol: commits
-				Alice->>+Bob: git push
-        Bob-->>-Alice: new HEAD
-				Carol->>+Bob: git push
-        Bob-->>-Carol: not OK
-]
-
----
-
-# Highlight some text / include images
-
-.noflex[
-.rightf.w20[
- ![](images/wikipedia_logo.png)
-]
-
-## Scientific method
-1. Define a question
-2. Gather information and resources (observe)
-3. Form an explanatory hypothesis
-4. Test the hypothesis by *performing an experiment* and collecting data in a **reproducible manner**
-5. Analyze the data
-6. Interpret the data and draw conclusions that serve as a starting point for new hypothesis
-7. **Publish results**
-8. Retest (frequently done **by other scientists**)
-]
-
----
-
-# How can I insert images ?
-
-.noflex[
-Use **`![](image.png)`**
-
-## Some justified text wrapping around a floating image:
-
-Lorem ipsum morbi taciti id adipiscing sed magna integer arcu eros nibh tortor interdum ultricies senectus accumsan, lacus suscipit a cursus pretium pellentesque est arcu blandit duis vivamus condimentum rhoncus molestie.
-
-.block.rightf.w20.animated.fadeInRight.wait1s[ ![](images/wikipedia_logo.png).hcenter[Wikipedia logo] ]
-
-Fames quisque volutpat lacus cursus semper varius erat habitant, luctus litora sed pulvinar himenaeos quis sit, vel fermentum taciti posuere fusce quisque tincidunt ut congue aliquam eget.
-
-.block.leftf.w30.animated.fadeInLeft.wait1s[
-Some text in a floating box... `$$\sum_i \hat{\pi}\left[u_i^2\right]=1$$`
-]
-
-`$$a=1+2+3+4+5+6+\ldots$$`
-Fames quisque volutpat lacus cursus semper varius erat habitant, luctus litora sed pulvinar himenaeos quis sit, vel fermentum taciti posuere fusce quisque tincidunt ut congue aliquam eget.
-Fames quisque volutpat lacus cursus semper varius erat habitant, luctus litora sed pulvinar himenaeos quis sit, vel fermentum taciti posuere fusce quisque tincidunt ut congue aliquam eget.
-Fames quisque volutpat lacus cursus semper varius erat habitant, luctus litora sed pulvinar himenaeos quis sit, vel fermentum taciti posuere fusce quisque tincidunt ut congue aliquam eget.
-]
-
----
-
-class: middle
-# Animate ?
-
-Yes, you can animate things.
-
-.block.animated.fadeInRight[
-* Here is a sliding *block of text*.
-* On two lines.
-]
-
-.animated.wait1s.fadeIn[Some text fading in...]
-
-.alert.animated.wait2s.fadeInLeft[Another block :v:
-`$$\int_0^1 x^2 dx = \left[ \frac{x^3}{3} \right]_0^1 $$`]
-
-.animated.wait3s.fadeIn[and...]
-
-.hcenter.block.animated.wait4s.fadeInUp[Some final text with some math :panda_face: !!! `$$a=b$$`]
-
----
-
-# some `git` graphs
+## Approximation de la dérivée seconde 
 
 .row[
-.column.w30[
-This is a serious `git` graph made with `gitgraph.js`.
-]
-.column.w65[
-<canvas id='gitExample0'></canvas>
-]
-]
+.center[
 
----
-
-class: hcenter, middle
-# Include a video
-
-<video controls="yes" preload="auto" width="100%" height="auto" data-setup="{}" loop>
-<source src="videos/toto.webm" type="video/webm" />
-</video>
-
----
-
-# Include a tree
-.alert.tree.hcenter[
-bin
-* ...
-
-code
-* data
-    * ...
-* headers
-    * ...
-* obj
-    * ...
-* src
-    * ...
-* **Makefile**
-* mainpage.md
-
-doc
-* Doxyfile
-* **Makefile**
-
-pres
-* ...
-
-tests
-* **Makefile**
-* ...
-
-AUTHORS.md
-**Makefile**
-README.md
+|   `$$z_0$$`    |   `$$z_0$$`   |   `$$z_1$$`  |   `$$z_2$$`   |   ...   |   `$$z_(n-1)$$` | 
+|:--------------:|:-------------:|:------------:|:-------------:|:-------:|:---------------:|
+|   ψ0(z0)       | ψ0(z1)        | ψ0(z2)       | ψ0(z3)        |   ...   | ψ0(z_(n-1))     |
+|   ψ1(z0)       | ψ1(z1)        | ψ1(z2)       | ψ1(z3)        |   ...   | ψ1(z_(n-1))     |
+|   ...          |   ...         |   ...        |   ...         |   ...   |   ...           |
+|   ψn(z0)       | ψn(z1)        | ψn(z2)       | ψn(z3)        |   ...   | ψn(z_(n-1))     |
 ]
 
----
+]
 
-# Plot with `Bokeh.js`
+-- 
 
-<div id='bokeh00' class='hcenter'></div>
+.row[
+.center[
 
----
+|   `$$z_1$$`    |   `$$z_2$$`   |   `$$z_3$$`  |   `$$z_4$$`   |   ...   |   `$$z_(n-2)$$` | 
+|:--------------:|:-------------:|:------------:|:-------------:|:-------:|:---------------:|
+|   ψ"0(z1)       | ψ"0(z2)       | ψ"0(z3)      | ψ"0(z4)      |   ...   | ψ"0(z_(n-2))    |
+|   ψ"1(z1)       | ψ"1(z2)       | ψ"1(z3)      | ψ"1(z4)      |   ...   | ψ"1(z_(n-2))    |
+|   ...           |   ...         |   ...        |   ...        |   ...   |   ...           |
+|   ψ"n(z1)       | ψ"n(z2)       | ψ"n(z3)      | ψ"n(z4)      |   ...   | ψ"n(z_(n-2))    |
 
-# Another plot with `Bokeh.js`
+]
 
-<div id='bokeh01' class='hcenter'></div>
+]
 
----
-
-# Plot with `Plotly.js`
-
-<div id='plotly00' class='hcenter shadow'></div>
-<div id='plotly01' class='hcenter shadow'></div>
-
-???
-
-:warning: BUG: due to a `scale()` rule in the CSS of `remark.js`, mouse coordinates in the plots are wrong.
 
 ---
+# Tests
 
-# Include `VTK` pipelines with [`vtk.js`](https://kitware.github.io/vtk-js/)
+Des tests ont été fait entre objet pour tester leurs cohérences 
 
-<iframe src="./vtk00.html" width="100%" height="500px"></iframe>
+```c++
+  TS_TRACE("Starting comparison test between same object ");
+  const double tolerance = 1e-6;
+  for (int i = 0; i < test.getN(); i++)
+  {
+      TS_ASSERT(arma::approx_equal(test.getPolynomeMat().col(i), test2.getPolynomeMat().col(i), "absdiff", tolerance));
+  }
+  TS_TRACE("Comparison test DONE");
+
+```
+--
+
+Ainsi qu'avec des valeurs exactes comme le polynôme d'Hermite pour vérifier les solutions.
+
+---
+# Tests
+## Vérification de l'orthogonalité
+
+On doit trouver pour chaque couple de solution:
+
+`$$\forall (m,n), \int \psi^*_m(z)\psi_n(z) dz = \delta_{mn}.$$`
+
+On peut approximer cette intégrale en utilisant les règles de quadrature de Gauss
+
+`$$\int_{a}^b \omega(x)g(x) dx \simeq \sum_{i=0}^{n-1}w^\omega_ig(x^\omega_i)$$`
+
+Il existe plusieurs quadrature pour les valeurs de `$\omega$` et `$x$`, dans notre cas on va utiliser celle de Gauss-Hermite
+
+---
+# Tests 
+
+`$$\int \psi_p(x)\psi_q(x)dx = c_pc_q\int e^{-\left ( \sqrt{\frac{m\omega }{\hbar}} x\right )^2}H_p\left ( \sqrt{\frac{m\omega }{\hbar}} x\right )H_q\left ( \sqrt{\frac{m\omega }{\hbar}} x\right )dx$$`
+On veut une équation de la forme `$\int e^{-z^2}g(x) dx$` pour pouvoir appliquer la quadrature de Gauss-Hermite
+
+On procède donc au changement de variable suivant: 
+`$$\begin{matrix}
+ u=\sqrt{\frac{m\omega }{\hbar}} x & du = \sqrt{\frac{m\omega }{\hbar}} dx
+\end{matrix}$$`
+
+On obtient
+`$$c_pc_m\sqrt{\frac{\hbar }{m\omega}}\int e^{-u^2}H_p(u)H_m(u)du $$`
 
 ---
 
+# Tests 
+
+Nous avons généré les valeurs pour les noeuds et les poids dans un fichier csv à l'aide de python pour n=10,20,30,40,50
+
+La somme est exacte si le degré du polynôme est inférieur ou égale à 2n-1
+
+Donc p+q doit faire au maximum 99 car le dégré de `$deg(H_p) = p $`
+
+---
+# Choix et Optimisation 
+
+De nombreuses opérations sont effectués.  
+
+- Il y a notamment l'appel de la factorielle. 
+ 
+--
+.block[
+La manière la plus optimisée de l'appelé **n'est pas la récursivité.**
+Mais un appel à tgamma
+]
+--
+
+```c
+constexpr float tgamma(float __x) {return __builtin_tgammaf(__x);}
+```On peut voir que ce code est builtin, et donc fais principalement en assembleur. **Cela est beaucoup plus rapide**
+
+---
+# Choix et Optimisation 
+
+Un "équivalent" en C, pourrait être.
+
+```c
+double
+tgamma(double x)
+{
+    struct Double u;
+
+    if (x >= 6) {
+        if(x > 171.63)
+            return (x / zero);
+        u = large_gam(x);
+        return(__exp__D(u.a, u.b));
+    } else if (x >= 1.0 + LEFT + x0)
+        return (small_gam(x));
+    else if (x > 1.e-17)
+        return (smaller_gam(x));
+    else if (x > -1.e-17) {
+        if (x != 0.0)
+            u.a = one - tiny;    /* raise inexact */
+        return (one/x);
+    } else if (!finite(x))
+        return (x - x);        /* x is NaN or -Inf */
+    else
+        return (neg_gam(x));
+}
+```
+(source :netBSD)
+
+---
+
+# Choix et Optimisation 
+
+D'autre optimisations sont faites : 
+- Pow est appelé le moins possible (facteur 10) comparé à la multiplication 
+
+```sh
+# exposant 9 
+Résultat : 512
+Temps (pow) : 2.8566e-05 secondes
+Temps (multiplication) : 1.886e-06 secondes
+```
+--
+
+- Armadillo est appelé le plus possible, limitant donc les boucles.
+
+---
+# Conclusion
+
+
+---
 class: hcenter, middle
 # Conclusion
 
@@ -646,9 +505,7 @@ Did you try the presentation mode (by pressing **p**) ?
 
 You can also get some help by pressing **h**.
 
-???
-
-Holy :cow: !!! I can put notes on my slides !?!
+**TA MERE**:trollface:
     </textarea>
 
     <script src="core/javascript/remark.js"></script>
