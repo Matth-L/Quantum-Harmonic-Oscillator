@@ -50,13 +50,59 @@ public:
         TS_TRACE("Test is DONE");
     }
 
-    // void testSecondDerivative(void)
-    // {
-    //     // testing if dx squared is correct
-    //     // testing if the matrix is correct
-    //     TS_TRACE("Starting second derivative test");
-    //     TS_TRACE("Second derivative is DONE");
-    // }
+    void testSecondDerivative(void)
+    {
+        const double tolerance = 1e-2;
+
+        //--------------------------------------------
+        TS_TRACE("Starting second derivative test");
+
+        // testing for n=1 , interval = [-1, 1], nodes = 3
+        TS_TRACE("Starting n=1 , interval = [-1, 1], nodes = 3 test");
+
+        vec test = {-0.591, 0};
+        Schrodinger x = Schrodinger();
+        Solutions sol = Solutions();
+        mat psi = sol.solutions(1, -1, 1, 3);
+        mat snd = x.secondDerivative(psi);
+
+        // testing with approximation for all the nodes
+        for (int i = 0; i < snd.n_rows - 1; i++)
+        {
+            TS_ASSERT_DELTA(snd(i, 0), test(i, 0), tolerance);
+        }
+        TS_TRACE("Test n=1 , interval = [-1, 1], nodes = 3 is DONE");
+
+        //--------------------------------------------
+
+        TS_TRACE("Starting dx test");
+
+        // testing if dx squared is correct
+        double dx = 1;
+        double dxToTest = psi(0, 1) - psi(0, 0);
+        TS_ASSERT_DELTA(dx, dxToTest * dxToTest, tolerance);
+
+        TS_TRACE("Test dx is DONE");
+
+        //--------------------------------------------
+
+        // testing for n=2 , interval = [-1, 1], nodes = 3
+        TS_TRACE("Starting n=2 , interval = [-1, 1], nodes = 3 test");
+
+        vec test2 = {-0.591, 0, 1.7064};
+
+        snd = x.secondDerivative(sol.solutions(2, -1, 1, 3));
+
+        for (int i = 0; i < snd.n_rows - 1; i++)
+        {
+            TS_ASSERT_DELTA(snd(i, 0), test2(i, 0), tolerance);
+        }
+        TS_TRACE("Test n=2 , interval = [-1, 1], nodes = 3 is DONE");
+
+        //--------------------------------------------
+
+        TS_TRACE("Second derivative is DONE");
+    }
 };
 
 #endif // SCHRODINGERTEST_H

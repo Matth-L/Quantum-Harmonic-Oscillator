@@ -7,12 +7,17 @@ using namespace arma;
 
 int main()
 {
-    int n = 10;
+    int n = 2;
     Schrodinger x = Schrodinger();
     Solutions sol = Solutions();
-    mat res = sol.solutions(n, -1, 1, 10);
+    mat res = sol.solutions(n, -1, 1, 3);
 
+    cout << res << endl;
     res.save("./bin/test.csv", csv_ascii);
+
+    mat snd = x.secondDerivative(res);
+    cout << "second derivative" << endl;
+    cout << snd << endl;
 
     mat schrodingerEquation = x.schrodinger1DEquation(res, 1, 1, 1);
     cout << "schrodinger equation" << endl;

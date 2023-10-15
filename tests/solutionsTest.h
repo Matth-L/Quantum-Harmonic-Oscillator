@@ -60,7 +60,7 @@ public:
 
         // if i == j then the result should be 1
         // otherwise it should be 0
-        for (int i = 0; i < 25; i++)
+        for (int i = 0; i < 24; i++)
         {
             for (int j = 0; j < 24; j++)
             {
