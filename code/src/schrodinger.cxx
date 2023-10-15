@@ -1,6 +1,6 @@
 /**
  *@file schrodinger.cxx
- *@author Matthias Lapu
+ *@author Matthias Lapu , Roméo Louati 
  *@brief calcul de l'énergie en utilisant
  * l'approximation de la dérivée seconde
  */
@@ -17,15 +17,19 @@ using namespace arma;
  */
 Schrodinger::Schrodinger() {};
 
+/**
+ * @brief Return the matrix of the second derivative
+ * 
+ * @return mat 
+ */
 mat Schrodinger::getSndDerivative()
 {
     return sndDerivative;
 }
 
-// access matrix (row, column)
-
 /**
- * @brief Compute the energie levels
+ * @brief Compute the energie levels using the formula : 
+ * E = hbar * omega * (n + 0.5)
  *
  * @param hbar
  * @param omega
@@ -37,14 +41,33 @@ double Schrodinger::energyLevels(double hbar, double omega, double n)
     return hbar * omega * (n + 0.5);
 };
 
+/**
+ * @brief Compute the position operator squared applied to psi
+ * 
+ * @param psi 
+ * @return mat 
+ */
 mat Schrodinger::psiZ_Squared(mat psi)
 {
+    rowvec z = pow(psi.row(0), 2);
     psi.shed_row(0);
-    psi.shed_col(0);
-    psi.shed_col(psi.n_cols - 1);
-    return (psi % psi);
+    for (int i = 0; i < (int)psi.n_rows; i++)
+    {
+        psi.row(i) = z % psi.row(i);
+    }
+    return psi;
 };
 
+/**
+ * @brief Compute the schrodinger equation for 1D (left part of the equation)
+ * It uses hbar , omega and m to compute the equation (constants)
+ * 
+ * @param psi (matrix of psi)
+ * @param hbar 
+ * @param omega 
+ * @param m 
+ * @return mat 
+ */
 mat Schrodinger::schrodinger1DEquation(mat psi, double hbar, double omega, double m)
 {
     // get the second derivative
@@ -52,12 +75,16 @@ mat Schrodinger::schrodinger1DEquation(mat psi, double hbar, double omega, doubl
 
     // get the z_hat
     mat psiSquared = psiZ_Squared(psi);
+    psiSquared.shed_col(psiSquared.n_cols -1);
+    psiSquared.shed_col(0);
 
     return -hbar * hbar / (2 * m) * sndDerivative + 0.5 * m * omega * omega * psiSquared;
 };
 
 /**
- * @brief
+ * @brief Compute the second derivative of psi
+ *
+ * @details
  *
  * Goal
  *
@@ -82,7 +109,7 @@ mat Schrodinger::schrodinger1DEquation(mat psi, double hbar, double omega, doubl
  * the formula is :
  * F"(x) = ( F(x-dx) - 2F(x) + F(x+dx)) / ( dx^2 )
  *
- * @example For each value , starting at 1 we are doing :
+ * @test For each value , starting at 1 we are doing :
  * ψ0​(z0) - 2*ψ0​(z1) + ψ0​(z2) / ((z1) - ​(z0))² = ψ0"(z0)
  * thus , we are not computing the first and last values
  * because they are used to compute the others
@@ -116,6 +143,7 @@ mat Schrodinger::secondDerivative(mat psi)
     }
 
     sndDerivative.shed_row(0);
+
     // Return the second derivative matrix
     return sndDerivative;
 }

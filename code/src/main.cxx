@@ -3,28 +3,29 @@
 #include "../headers/schrodinger.h"
 #include <iostream>
 #include <armadillo>
+#include <cmath>
 using namespace arma;
 
 int main()
 {
-    int n = 2;
-    Schrodinger x = Schrodinger();
+    double m = 0.510998950;//[MeV/c^2]
+    double hbar = 6.582119569509067e-07;//[MeV.fs]
+    double omega = sqrt((1/*[N/m]*/*6.24151e-9 /*[MeV/c^2]*/)/m);
+    int n = 5;
+    Solutions solUnit = Solutions(m,hbar,omega);
     Solutions sol = Solutions();
-    mat res = sol.solutions(n, -1, 1, 3);
+    mat res = solUnit.solutions(n, -5, 5, 500);
 
-    cout << res << endl;
     res.save("./bin/test.csv", csv_ascii);
 
-    mat snd = x.secondDerivative(res);
-    cout << "second derivative" << endl;
-    cout << snd << endl;
-
-    mat schrodingerEquation = x.schrodinger1DEquation(res, 1, 1, 1);
-    cout << "schrodinger equation" << endl;
-    cout << schrodingerEquation << endl;
+    Schrodinger x = Schrodinger();
+    mat schrodingerEquation = x.schrodinger1DEquation(res, hbar, omega, m);
 
     cout << "energy levels" << endl;
-    cout << x.energyLevels(1, 1, n - 1) << endl;
+    for (int i=0;i<n+1;i++)
+    {
+        cout << x.energyLevels(hbar, omega, i) << endl;
+    }
 
     res.shed_row(0);
     res.shed_col(0);
@@ -32,21 +33,5 @@ int main()
 
     mat energie = schrodingerEquation * pinv(res);
     cout << sum(energie) << endl;
-
-    // res.save("../bin/test.csv", csv_ascii);
-
-    // arma::mat A;
-    // A.load("../code/data/nodes_weights", arma::csv_ascii);
-    // A.print();
-
-    // for (int i = 0; i < 10; i++)
-    // {
-    //     for (int j = 0; j < 10; j++)
-    //     {
-    //         float a = sol.verifOrthonormality(i, j);
-    //         printf("%10f", a);
-    //     }
-    //     printf("\n");
-    // }
     return 0;
 }
