@@ -25,6 +25,7 @@ public:
     // those 2 Hermite's object are supposed to be the same
     Hermite test = Hermite(7, input);
     Hermite test2 = Hermite(7, 2, 7, 6);
+    Hermite testWithRealHermite = Hermite(4, {1, 2, 3, 4, 5});
 
     void testConstructor(void)
     {
@@ -57,17 +58,42 @@ public:
         TS_ASSERT(arma::all(test.getZ() == test2.getZ()));
         TS_TRACE("Equality test is DONE");
 
-        TS_TRACE("Z test is DONE");
-
         TS_TRACE("Finishing constructor test");
     };
 
     void testFill(void)
     {
+        const double tolerance = 1e-6;
+
+        //----------------------------------------
+
         TS_TRACE("Starting fill");
         test.fillPolynomeHermite();
         test2.fillPolynomeHermite();
+        testWithRealHermite.fillPolynomeHermite();
         TS_TRACE("filling DONE with test1 and test2");
+
+        //----------------------------------------
+
+        TS_TRACE("Starting comparison test");
+        TS_TRACE("Testing with Z = {1,2,3,4,5}");
+        mat hermiteMatrix =
+        {
+            {1, 2, 2, -4, -20},
+            {1, 4, 14, 40, 76},
+            {1, 6, 34, 180, 876},
+            {1, 8, 62, 464, 3340},
+            {1, 10, 98, 940, 8812},
+        };
+
+        mat hermiteFetch = testWithRealHermite.getPolynomeMat();
+
+        // Vérifiez si les deux matrices sont approximativement égales
+        TS_ASSERT(arma::approx_equal(hermiteMatrix, hermiteFetch, "absdiff", tolerance));
+
+        TS_TRACE("Comparison test DONE with theorical values");
+
+        //----------------------------------------
 
         // testing if the first values is a col of 1 for test1 and test 2
         // this test is now useless, because we test all the value in the next test
@@ -77,9 +103,10 @@ public:
         TS_ASSERT(arma::all(test.getPolynomeMat().col(0) == test2.getPolynomeMat().col(0)));
         TS_TRACE("first column test DONE");
 
+        //----------------------------------------
+
         // testing if all the values are the same for test1 and test 2, due to floating point error, we use a tolerance
         TS_TRACE("Starting comparison test between similar object");
-        const double tolerance = 1e-6;
         for (int i = 0; i < test.getN(); i++)
         {
             TS_ASSERT(arma::approx_equal(test.getPolynomeMat().col(i), test2.getPolynomeMat().col(i), "absdiff", tolerance));

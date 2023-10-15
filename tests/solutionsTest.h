@@ -1,7 +1,7 @@
 /**
  * @file solutionsTest.h
  * @author Lapu Matthias
- * @brief
+ * @brief Test class for Solutions
  */
 
 #ifndef SOLUTIONSTEST_H
@@ -11,7 +11,7 @@
 #include <cxxtest/TestSuite.h>
 using namespace arma;
 
-class SolutionTest : public CxxTest::TestSuite
+class SolutionsTest : public CxxTest::TestSuite
 {
 public:
     // parameters are supposed to be 1
@@ -19,9 +19,13 @@ public:
     Solutions x2 = Solutions(1, 1, 1);
     Solutions x3 = Solutions(2, 9, 5);
 
+    // test the constructor
     void testConstructorSolutions(void)
     {
         TS_TRACE("Starting test");
+
+        // testing the values inside the constructor
+        // and between the constructors
 
         // test m
         TS_TRACE("Starting M test");

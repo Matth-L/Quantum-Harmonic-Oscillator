@@ -7,22 +7,12 @@ using namespace arma;
 
 int main()
 {
+    int n = 10;
+    Schrodinger x = Schrodinger();
     Solutions sol = Solutions();
-    int n = 1;
-    mat res = sol.solutions(n, -5, 5, 100);
-    cout << "solutions" << endl;
-    cout << res << endl;
+    mat res = sol.solutions(n, -1, 1, 10);
 
     res.save("./bin/test.csv", csv_ascii);
-
-    Schrodinger x = Schrodinger();
-    mat snd = x.secondDerivative(res);
-    cout << "snd" << endl;
-    cout << snd << endl;
-
-    mat psiSquared = x.psiZ_Squared(res);
-    cout << "psi squared" << endl;
-    cout << psiSquared << endl;
 
     mat schrodingerEquation = x.schrodinger1DEquation(res, 1, 1, 1);
     cout << "schrodinger equation" << endl;
