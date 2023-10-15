@@ -5,9 +5,9 @@ using namespace arma;
 /**
  * @brief Construct a new Solutions::solutions object
  *
- * @param float m
- * @param float hbar
- * @param float omega
+ * @param mInput
+ * @param hbarInput
+ * @param omegaInput
  */
 Solutions::Solutions(float mInput, float hbarInput, float omegaInput)
 {
@@ -69,7 +69,7 @@ float Solutions::getOmega()
  * ]
  * @return mat
  */
-mat Solutions::solutions(unsigned int n, mat z)
+mat Solutions::solutions(unsigned int n, arma::mat z)
 {
     float cons = sqrt((m * omega) / hbar);
     Hermite hermiteMat = Hermite(n, cons * z); // creates the value of the Hermite polynomial
@@ -114,6 +114,7 @@ mat Solutions::solutions(unsigned int n, float start, float end, unsigned int in
 
 /**
  * @brief Verifies the orthogonality for the two given value for n
+ * p + q must be lower than 99
  *
  * @param p
  * @param q
@@ -121,8 +122,13 @@ mat Solutions::solutions(unsigned int n, float start, float end, unsigned int in
  */
 float Solutions::verifOrthonormality(unsigned int p, unsigned int q)
 {
-    int deg = p + q;
-    int n = deg - deg % 10 + 10; // finds the smaller multiple of ten above p + q
+    int deg = (p + q)/2;
+    int n = deg - deg % 10 + 10; // finds the smaller multiple of ten above (p + q)/2
+
+    if (n>50)
+    {
+        throw std::invalid_argument("p + q must be lower than 99");
+    }
 
     float C = (1 / (sqrt(pow(2, p) * tgamma(p + 1)))) * pow((m * omega) / (M_PI * hbar), 0.25) * (1 / (sqrt(pow(2, q) * tgamma(q + 1)))) * pow((m * omega) / (M_PI * hbar), 0.25) * sqrt(hbar / (m * omega)); // constant
     mat A;
@@ -148,5 +154,5 @@ float Solutions::verifOrthonormality(unsigned int p, unsigned int q)
     Hermite hermiteMat = Hermite(std::max(p, q), x); // creates the value of the Hermite polynomial
     hermiteMat.fillPolynomeHermite();
     mat H = w % hermiteMat.getPolynomeMat().col(p) % hermiteMat.getPolynomeMat().col(q);
-    return arma::accu(H) * C;
+    return arma::accu(HComptite ) * C;
 }
