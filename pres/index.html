@@ -31,7 +31,7 @@ Matthias Lapu
 
 
 .footnote[
-[:book:](../index.html)
+[:cow:](./index_cea.html)
 ]
 
 ---
@@ -40,7 +40,7 @@ class: animated fadeIn middle numbers
 
 ---
 # Table des matières
-1. [Courte Introduction](#example)
+1. Courte Introduction
 2. Structure du projet
     1. Arborescence
     2. Choix des classes
@@ -101,10 +101,18 @@ Et `$H_n$` est **le polynôme d'Hermite**, avec la relation de récurrence suiva
 # Structure du projet
 ## Choix des classes
 
+.row[
+.w49.col[
 Différentes classes du projet:
 * Hermite
 * Solutions
 * Schrödinger
+* Test
+]
+.w49.col[
+    ![](image/2Q.png)
+]
+]
 
 ---
 # Chaîne de compilation  
@@ -180,7 +188,11 @@ clean:
 
 En utilisant **doxygen**, on a obtenu la documentation présente dans **/doc/doxygen/html/index.html**:
 
-![](images/doxygenExample1.png)
+![](d1.PNG)
+---
+# Documentation
+
+![](d2.PNG)
 ---
 
 # Historique du git
@@ -294,17 +306,17 @@ mat Solutions::solutions(unsigned int n, mat z)
 ---
 # Présentation du projet
 
-.row[
-.center[
+Matrice résultante:
+
 |   n    |   z1   |   z2   |   z3   |   ...   |   zn   | 
 |:------:|:------:|:------:|:------:|:-------:|:------:|
 |   0    | ψ0(z1) | ψ0(z2) | ψ0(z3) |   ...   | ψ0(zn) |
 |   1    | ψ1(z1) | ψ1(z2) | ψ1(z3) |   ...   | ψ1(zn) |
 |   ...  |   ...  |   ...  |   ...  |   ...   |   ...  |
 |   n    | ψn(z1) | ψn(z2) | ψn(z3) |   ...   | ψn(zn) |
-]
 
-]
+
+
 ---
 
 # Calcul de l'énergie 
@@ -331,43 +343,58 @@ Notre but est donc de vérifier si :
 Cependant, elle n'existe pas en c++.
 
 ---
-# Calcul de l'énergie 
+# Calcul de l'énergie  
 
-## Approximation de la dérivée seconde 
+On procède donc ainsi : 
 
-.row[
-.center[
 
-|   `$$z_0$$`    |   `$$z_0$$`   |   `$$z_1$$`  |   `$$z_2$$`   |   ...   |   `$$z_(n-1)$$` | 
+|   `$$z_0$$`    |   `$$z_1$$`   |   `$$z_2$$`  |   `$$z_3$$`   |   ...   |   `$$z_{(n-1)}$$` | 
 |:--------------:|:-------------:|:------------:|:-------------:|:-------:|:---------------:|
 |   ψ0(z0)       | ψ0(z1)        | ψ0(z2)       | ψ0(z3)        |   ...   | ψ0(z_(n-1))     |
 |   ψ1(z0)       | ψ1(z1)        | ψ1(z2)       | ψ1(z3)        |   ...   | ψ1(z_(n-1))     |
 |   ...          |   ...         |   ...        |   ...         |   ...   |   ...           |
 |   ψn(z0)       | ψn(z1)        | ψn(z2)       | ψn(z3)        |   ...   | ψn(z_(n-1))     |
-]
 
-]
+---
 
--- 
+# Calcul de l'énergie  
 
-.row[
-.center[
 
-|   `$$z_1$$`    |   `$$z_2$$`   |   `$$z_3$$`  |   `$$z_4$$`   |   ...   |   `$$z_(n-2)$$` | 
+|   `$$z_1$$`    |   `$$z_2$$`   |   `$$z_3$$`  |   `$$z_4$$`   |   ...   |   `$$z_{(n-2)}$$` | 
 |:--------------:|:-------------:|:------------:|:-------------:|:-------:|:---------------:|
 |   ψ"0(z1)       | ψ"0(z2)       | ψ"0(z3)      | ψ"0(z4)      |   ...   | ψ"0(z_(n-2))    |
 |   ψ"1(z1)       | ψ"1(z2)       | ψ"1(z3)      | ψ"1(z4)      |   ...   | ψ"1(z_(n-2))    |
 |   ...           |   ...         |   ...        |   ...        |   ...   |   ...           |
 |   ψ"n(z1)       | ψ"n(z2)       | ψ"n(z3)      | ψ"n(z4)      |   ...   | ψ"n(z_(n-2))    |
 
-]
 
-]
+---
 
+# Calcul de l'énergie
+
+On calcule donc:
+
+`$$A = -\frac{\hbar}{2m}\frac{d\Psi^{2}}{dx^{2}} + \frac{1}{2}mw^{2}Z^2\Psi$$`
+
+Avec `$Z$` est le vecteur qui contient toutes les abscisses `$z_0,z_1, \dots, z_n$`
+
+
+---
+# Calcul de l'énergie
+
+On a donc `$A = E\Psi$`, avec `$E$` qui est un vecteur qui possède `$E_0,E_1,\dots, E_n$`
+
+`$E \simeq A\Psi^{-1}$`
+
+L'inverse est fait avec une approximation de la matrice.
 
 ---
 # Tests
 
+![](image/test.jpg)
+
+---
+# Tests
 Des tests ont été fait entre objet pour tester leurs cohérences 
 
 ```c++
@@ -375,7 +402,7 @@ Des tests ont été fait entre objet pour tester leurs cohérences
   const double tolerance = 1e-6;
   for (int i = 0; i < test.getN(); i++)
   {
-      TS_ASSERT(arma::approx_equal(test.getPolynomeMat().col(i), test2.getPolynomeMat().col(i), "absdiff", tolerance));
+    TS_ASSERT(arma::approx_equal(test.getPolynomeMat().col(i), test2.getPolynomeMat().col(i), "absdiff", tolerance));
   }
   TS_TRACE("Comparison test DONE");
 
@@ -417,11 +444,14 @@ On obtient
 
 # Tests 
 
-Nous avons généré les valeurs pour les noeuds et les poids dans un fichier csv à l'aide de python pour n=10,20,30,40,50
+Nous avons généré les valeurs pour les noeuds et les poids dans un fichier csv à l'aide de python pour 
 
-La somme est exacte si le degré du polynôme est inférieur ou égale à 2n-1
+`$n$`=10,20,30,40,50
 
-Donc p+q doit faire au maximum 99 car le dégré de `$deg(H_p) = p $`
+La somme est exacte si le degré du polynôme est inférieur ou égale à `$2n-1$ `
+
+Donc `$p+q$` doit faire au maximum 99 car le degré de 
+.alert.center[`$deg(H_p) = p $`]
 
 ---
 # Choix et Optimisation 
@@ -432,7 +462,7 @@ De nombreuses opérations sont effectués.
  
 --
 .block[
-La manière la plus optimisée de l'appelé **n'est pas la récursivité.**
+La manière la plus optimisée de l'appeler **n'est pas la récursivité.**
 Mais un appel à tgamma
 ]
 --
@@ -440,7 +470,7 @@ Mais un appel à tgamma
 ```c
 constexpr float tgamma(float __x) {return __builtin_tgammaf(__x);}
 ```
-On peut voir que ce code est builtin, et donc fais principalement en assembleur. **Cela est beaucoup plus rapide**
+On peut voir que ce code est builtin, et donc fait principalement en assembleur. **Cela est beaucoup plus rapide**
 
 ---
 # Choix et Optimisation 
@@ -492,22 +522,64 @@ Temps (multiplication) : 1.886e-06 secondes
 - Armadillo est appelé le plus possible, limitant donc les boucles.
 
 ---
-# Conclusion
-
-
+# Résultats
+.row[
+.w49.col[
+    ![](f1.png)
+]
+.w49.col[
+    ![](f2bis.png)
+]
+]
+.row[
+.w40.col[
+    
+]
+.w58.col[
+```c++
+//pour un électron dans un potentiel atomique
+double m = 0.510998950;//[MeV/c^2]
+double hbar = 6.582119569509067e-07;//[MeV.fs]
+double omega = sqrt((1/*[N/m]*/*6.24151e-9 /*[MeV/c^2]*/)/m);
+```
+]
+]
 ---
-class: hcenter, middle
+# Résultats
+
+.row[
+.w49.col[
+    ## Calcul de l'énergie pour `$$w=\hbar=m=1$$`
+]
+.w49.col[
+    ## Calcul de l'énergie pour un électron
+]
+]
+.row[
+.w49.col[
+    | `$n$`  | `$E_n$` (théorique)| `$E_n$`|
+    |:------:|:------------------:|:------:|
+    |   0    |         0.5        | 0.5000 |
+    |   1    |         1.5        | 1.5000 |
+    |   2    |         2.5        | 2.5000 |
+    |   3    |         3.5        | 3.5000 |
+]
+.w49.col[
+    | `$n$`  | `$E_n$` (théorique)|  `$E_n$` |
+    |:------:|:------------------:|:--------:|
+    |   0    |     3.63727e-11    |3.6378e-11|
+    |   1    |     1.09117e-10    |1.0913e-10|
+    |   2    |     1.81861e-10    |1.8183e-10|
+    |   3    |     2.54606e-10    |2.5455e-10|
+]
+]
+---
 # Conclusion
 
-**That's all folks !**
+![](image/Z.png)
 
-Start playing with this by simply editing the source file.
 
-Did you try the presentation mode (by pressing **p**) ?
 
-You can also get some help by pressing **h**.
-
-**TA MERE**:trollface:
     </textarea>
 
     <script src="core/javascript/remark.js"></script>

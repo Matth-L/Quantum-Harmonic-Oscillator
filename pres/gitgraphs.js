@@ -58,7 +58,6 @@ main.checkout();
 m.merge();
 g.tag("v0.1.0");
 m.commit("Hermite 2.0");
-g.tag("v0.1.1");
 main.checkout();
 m.merge();
 m.checkout();
@@ -94,8 +93,8 @@ a.merge();
 m.merge();
 r.merge();
 g.tag("v0.5.0");
-main.commit("Tests Solution et Schrödinger");
-g.tag("v0.6.0");
+main.commit("Tests Solution et Schrödinger,unités et finitions");
+g.tag("v1.0.0");
 // ===== END =====
 
 // ===== branchHowto0 =====
