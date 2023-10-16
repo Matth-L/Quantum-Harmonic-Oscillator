@@ -139,7 +139,7 @@ double Solutions::verifOrthonormality(unsigned int p, unsigned int q)
 
     double C = (1 / (sqrt(pow(2, p) * tgamma(p + 1)))) * pow((m * omega) / (M_PI * hbar), 0.25) * (1 / (sqrt(pow(2, q) * tgamma(q + 1)))) * pow((m * omega) / (M_PI * hbar), 0.25) * sqrt(hbar / (m * omega)); // constant
     mat A;
-    A.load("../code/data/nodes_weights", arma::csv_ascii); // loading the nodes and the weights
+    A.load("./code/data/nodes_weights", arma::csv_ascii); // loading the nodes and the weights
     mat x = A.row(n / 5 - 2);                              // nodes
     mat w = A.row(n / 5 - 1);                              // weight
 
