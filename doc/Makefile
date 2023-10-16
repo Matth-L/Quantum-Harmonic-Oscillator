@@ -7,4 +7,4 @@ doc:
 	doxygen
 
 clean:
-	rm -r ./doxygen/*
+	rm -rf ./doxygen/*

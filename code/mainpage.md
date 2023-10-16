@@ -66,8 +66,6 @@ Maintenant qu'on dispose des solutions, on peut calculer le membre de gauche de 
 à l'aide de l'approximation de la dérivée seconde via la méthode des différences finies. Ici, \f$\Psi\f$ est la matrice venant de solution.h,
 \f$Z\f$ est le vecteur qui contient toutes les abscisses \f$z_0,z_1, \dots, z_n\f$. 
 
-Ce qui nous donne une matrice \f$A\f$, la matrice hamiltonienne liée à ce système.
-
 On a donc \f$A = E\Psi\f$, avec \f$E\f$ qui est un vecteur qui possède \f$E_0,E_1,\dots, E_n\f$, les inconnues du système.
 On utilise alors pinv sur la matrice de \f$\Psi\f$, car cette matrice n'est pas forcément carrée,ce qui donne:
 \f$E \simeq A\Psi^{-1}\f$
