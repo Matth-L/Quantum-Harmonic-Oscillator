@@ -94,13 +94,13 @@ public:
         TS_TRACE("Starting comparison test");
         TS_TRACE("Testing with Z = {1,2,3,4,5}");
         mat hermiteMatrix =
-            {
-                {1, 2, 2, -4, -20},
-                {1, 4, 14, 40, 76},
-                {1, 6, 34, 180, 876},
-                {1, 8, 62, 464, 3340},
-                {1, 10, 98, 940, 8812},
-            };
+        {
+            {1, 2, 2, -4, -20},
+            {1, 4, 14, 40, 76},
+            {1, 6, 34, 180, 876},
+            {1, 8, 62, 464, 3340},
+            {1, 10, 98, 940, 8812},
+        };
 
         mat hermiteFetch = testWithRealHermite.getPolynomeMat();
 

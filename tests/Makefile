@@ -13,7 +13,7 @@ OBJSTEST= $(OBJDIR)test.o
 TARGET = $(BINDIR)test 
 
 $(TARGET): $(OBJSTEST) $(OBJS)
-	$(CC) -o $(BINDIR)test $^
+	$(CC) -o $(BINDIR)test $^ -larmadillo
 
 #création du .o à partir des .h pour les HEADERS
 $(OBJDIR)%.o: $(SRCDIR)%.cxx $(HEADERSDIR)%.h
@@ -35,7 +35,7 @@ style :
 	find . -type f -name '*.orig' -delete
 
 clean : 
-	rm $(CXXTEST)
+	rm -rf $(CXXTEST)
 	rm -rf $(OBJDIR)*.o
 	rm -rf $(TARGET)
 	

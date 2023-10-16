@@ -22,7 +22,7 @@ int main()
     mat schrodingerEquation = x.schrodinger1DEquation(res, hbar, omega, m);
 
     cout << "energy levels" << endl;
-    for (int i=0;i<n+1;i++)
+    for (int i=0; i<n+1; i++)
     {
         cout << x.energyLevels(hbar, omega, i) << endl;
     }

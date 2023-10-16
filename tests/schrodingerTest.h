@@ -7,9 +7,11 @@
 #ifndef SCHRODINGERTEST_H
 #define SCHRODINGERTEST_H
 
-#include "schrodinger.h"
-#include "solutions.h"
+#include "../code/headers/solutions.h"
+#include "../code/headers/schrodinger.h"
 #include <cxxtest/TestSuite.h>
+
+using namespace arma;
 
 /**
  * @brief this class tests the Schrodinger equation
@@ -122,12 +124,47 @@ public:
     }
 
     /**
-     * @test this function tests the left part of the Schrodinger equation
-     * with the right part of the Schrodinger equation
-     * It means that it test if the left part of the equation is equal to the right part.
+     * @test this function tests the left part of the Schrodinger equation * psi^-1
+     * with the right part of the Schrodinger equation (the energy)
+     * @warning the tolerance is 1e-3 , beyond the test wont pass
      */
-    void testLeftPartVSRightPart(void)
+    void testEnergyComparison(void)
     {
+        TS_TRACE("Starting energyComparison ");
+        // left part
+        int n = 4;
+        int hbar = 1;
+        int omega = 1;
+        int m = 1;
+        double tolerance = 1e-3;
+
+        Solutions solUnit = Solutions(m, hbar, omega);
+
+        TS_TRACE("Building Solution");
+        mat res = solUnit.solutions(n, -5, 5, 500);
+
+        Schrodinger x = Schrodinger();
+
+        TS_TRACE("Building Schrodinger");
+        mat schrodingerEquation = x.schrodinger1DEquation(res, hbar, omega, m);
+
+        TS_TRACE("Computing energy");
+
+        res.shed_row(0);
+        res.shed_col(0);
+        res.shed_col(res.n_cols - 1);
+        mat energie = schrodingerEquation * pinv(res);
+        mat summedEnergie = sum(energie);
+
+        TS_TRACE("Starting Loop");
+        for (int i = 0; i < summedEnergie.n_cols - 1; i++)
+        {
+            // absdiff
+            TS_ASSERT_DELTA(summedEnergie(0, i), x.energyLevels(hbar, omega, i), tolerance);
+            cout << summedEnergie(0, i) << endl;
+            cout << x.energyLevels(hbar, omega, i) << endl;
+        }
+        TS_TRACE("TEST DONE");
     }
 };
 

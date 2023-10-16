@@ -12,7 +12,7 @@ using namespace arma;
 
 /**
  * @brief Class handling the computation of the Schrödinger equation, and the energy level according to the formula
- * 
+ *
  */
 class Schrodinger
 {

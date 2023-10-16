@@ -6,7 +6,7 @@
 
 /**
  * @brief Class handling the math behind the solution and the verification for the orthonormality
- * 
+ *
  */
 class Solutions
 {
@@ -18,12 +18,12 @@ public:
     float m;
     /**
      * @brief value for hbar [MeV.fs]
-     * 
+     *
      */
     float hbar;
     /**
      * @brief value for omega
-     * 
+     *
      */
     float omega;
 
