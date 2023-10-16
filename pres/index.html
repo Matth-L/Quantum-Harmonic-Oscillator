@@ -315,7 +315,7 @@ Rappelons la formule de l'énergie :
 
 Notre but est donc de vérifier si :
 
-`$$ - \frac{\hbar}{2m}\frac{d\psi_n^{2}}{d^{2}z} + \frac{1}{2}m\omega^{2}z^2\psi_n^{2} = E_n \psi_n $$`
+`$$ - \frac{\hbar}{2m}\frac{d\psi_n^{2}}{d^{2}z} + \frac{1}{2}m\omega^{2}z^2\psi_n = E_n \psi_n $$`
 
 ---
 # Calcul de l'énergie 
@@ -390,7 +390,7 @@ Ainsi qu'avec des valeurs exactes comme le polynôme d'Hermite pour vérifier le
 
 On doit trouver pour chaque couple de solution:
 
-`$$\forall (m,n), \int \psi^*_m(z)\psi_n(z) dz = \delta_{mn}.$$`
+`$$\forall (m,n), \int \psi^*_m(z)\psi_n(z) dz = \delta_{mn}$$`
 
 On peut approximer cette intégrale en utilisant les règles de quadrature de Gauss
 
@@ -401,8 +401,9 @@ Il existe plusieurs quadrature pour les valeurs de `$\omega$` et `$x$`, dans not
 ---
 # Tests 
 
-`$$\int \psi_p(x)\psi_q(x)dx = c_pc_q\int e^{-\left ( \sqrt{\frac{m\omega }{\hbar}} x\right )^2}H_p\left ( \sqrt{\frac{m\omega }{\hbar}} x\right )H_q\left ( \sqrt{\frac{m\omega }{\hbar}} x\right )dx$$`
+
 On veut une équation de la forme `$\int e^{-z^2}g(x) dx$` pour pouvoir appliquer la quadrature de Gauss-Hermite
+`$$\int \psi_p(x)\psi_q(x)dx = c_pc_q\int e^{-\left ( \sqrt{\frac{m\omega }{\hbar}} x\right )^2}H_p\left ( \sqrt{\frac{m\omega }{\hbar}} x\right )H_q\left ( \sqrt{\frac{m\omega }{\hbar}} x\right )dx$$`
 
 On procède donc au changement de variable suivant: 
 `$$\begin{matrix}
@@ -438,7 +439,8 @@ Mais un appel à tgamma
 
 ```c
 constexpr float tgamma(float __x) {return __builtin_tgammaf(__x);}
-```On peut voir que ce code est builtin, et donc fais principalement en assembleur. **Cela est beaucoup plus rapide**
+```
+On peut voir que ce code est builtin, et donc fais principalement en assembleur. **Cela est beaucoup plus rapide**
 
 ---
 # Choix et Optimisation 

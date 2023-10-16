@@ -5,7 +5,7 @@ Ce projet consiste à calculer les solutions de l'oscillateur harmonique quantiq
 
 ##Contexte physique
 ###Forme des solutions
-Partons de l'équation de Schrödinger:
+Partons de l'équation de Schrödinger, à une dimension indépendante du temps:
 
 \f$\hat{H}_{(z)} \psi_{n}(z) = E_{n} \psi_{n}(z)\f$
 
@@ -43,17 +43,33 @@ sur les lignes d'après: \f$\psi_{0}(z), \psi_{1}(z), \dots, \psi_{n}(z)\f$.
 
 Finalement, il ne reste plus qu'à exporter ces données pour les tracer !
 
+##Orthogonalité
+
+Les solutions de cette équation sont orthonormales entre elles, c'est à dire:
+
+\f$\forall (m,n), \int \psi^*_m(z)\psi_n(z) dz = \delta_{mn}\f$
+
+On peut approximer cette intégrale en utilisant les règles de quadrature de Gauss:
+
+\f$\int_{a}^b \omega(x)g(x) dx \simeq \sum_{i=0}^{n-1}w^\omega_ig(x^\omega_i)\f$
+
+Plus précisément, on utilise ici les règles de quadrature de Gauss-Hermite car:
+
+\f$\omega(x)\f$ est de la forme \f$\omega(x)=e^{-x^2}\f$, \f$a=-\infty\f$ et \f$b=+\infty\f$
+
 ##Calcul de l'énergie
 
 Maintenant qu'on dispose des solutions, on peut calculer le membre de gauche de l'équation de Schrödinger:
 
-\f$-\frac{\hbar}{2m}\frac{d\Psi^{2}}{dx^{2}} + \frac{1}{2}mw^{2}\Psi^{2}\f$
+\f$-\frac{\hbar}{2m}\frac{d\Psi^{2}}{dx^{2}} + \frac{1}{2}mw^{2}Z^2\Psi\f$
+
 à l'aide de l'approximation de la dérivée seconde via la méthode des différences finies. Ici, \f$\Psi\f$ est la matrice venant de solution.h,
-l'opération \f$\Psi^2\f$ se faisant par éléments 2 à 2. 
+\f$Z\f$ est le vecteur qui contient toutes les abscisses \f$z_0,z_1, \dots, z_n\f$. 
 
 Ce qui nous donne une matrice \f$A\f$, la matrice hamiltonienne liée à ce système.
 
 On a donc \f$A = E\Psi\f$, avec \f$E\f$ qui est un vecteur qui possède \f$E_0,E_1,\dots, E_n\f$, les inconnues du système.
-On ne peut pas inverser \f$\Psi\f$, car non inversible en certains points.
+On utilise alors pinv sur la matrice de \f$\Psi\f$, car cette matrice n'est pas forcément carrée,ce qui donne:
+\f$E \simeq A\Psi^{-1}\f$
 
-On peut, néanmoins, utiliser la fonction eig_pair d'armadillo pour obtenir une approximation des valeurs propres.
+Il faut sommer les lignes de \f$E\f$ ce qui donne les \f$E_0,E_1,\dots, E_n\f$
