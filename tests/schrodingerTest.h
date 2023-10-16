@@ -11,10 +11,21 @@
 #include "solutions.h"
 #include <cxxtest/TestSuite.h>
 
+/**
+ * @brief this class tests the Schrodinger equation
+ *
+ */
 class SchrodingerTest : public CxxTest::TestSuite
 {
 
 public:
+    /**
+     * @test This function tests the energy levels
+     * of the Schrodinger equation
+     * using the formula : E_n = hbar * omega * (n + 1/2)
+     * The test is done with different values of hbar and omega (1 and random)
+     * and with different values of n
+     */
     void testEnergyLevels(void)
     {
         TS_TRACE("Starting energy level test");
@@ -50,6 +61,12 @@ public:
         TS_TRACE("Test is DONE");
     }
 
+    /**
+     * @test this function tests the second derivative matrix
+     * The test is done by comparing the result of the function
+     * with 2 values that were calculated by hand.
+     * @warning the tolerance is set to 1e-2
+     */
     void testSecondDerivative(void)
     {
         const double tolerance = 1e-2;
@@ -102,6 +119,15 @@ public:
         //--------------------------------------------
 
         TS_TRACE("Second derivative is DONE");
+    }
+
+    /**
+     * @test this function tests the left part of the Schrodinger equation
+     * with the right part of the Schrodinger equation
+     * It means that it test if the left part of the equation is equal to the right part.
+     */
+    void testLeftPartVSRightPart(void)
+    {
     }
 };
 

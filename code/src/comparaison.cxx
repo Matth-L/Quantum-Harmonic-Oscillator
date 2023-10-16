@@ -7,6 +7,13 @@
 #include <cmath>
 #include <chrono>
 
+/**
+ * @brief this function compares the pow function and the multiplication
+ *
+ * @test compare the pow function and the multiplication using the same base and exponent
+ * we can see that pow is slower than the multiplication
+ * @return int
+ */
 int main()
 {
     double base = 2.0;

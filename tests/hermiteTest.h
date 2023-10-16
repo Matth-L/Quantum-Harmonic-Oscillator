@@ -5,6 +5,7 @@
  */
 #ifndef HERMITETEST_H
 #define HERMITETEST_H
+
 #include "hermite.h"
 #include <cxxtest/TestSuite.h>
 using namespace arma;
@@ -17,6 +18,10 @@ using namespace arma;
  * - the fillPolynomeHermite method
  */
 
+/**
+ * @brief this class tests the hermite's polynome
+ *
+ */
 class HermiteTest : public CxxTest::TestSuite
 {
 public:
@@ -27,6 +32,10 @@ public:
     Hermite test2 = Hermite(7, 2, 7, 6);
     Hermite testWithRealHermite = Hermite(4, {1, 2, 3, 4, 5});
 
+    /**
+     * @test this function tests the constructor
+     * of the Hermite class
+     */
     void testConstructor(void)
     {
         TS_TRACE("Starting constructor test");
@@ -61,6 +70,13 @@ public:
         TS_TRACE("Finishing constructor test");
     };
 
+    /**
+     * @test this function tests the filling method of the Hermite class
+     * the test is done by comparing the result of the function
+     * with values that were calculated by hand.
+     * It also compares values with 2 similar objects that were initialized differently
+     * @warning the tolerance is set to 1e-6
+     */
     void testFill(void)
     {
         const double tolerance = 1e-6;
@@ -78,13 +94,13 @@ public:
         TS_TRACE("Starting comparison test");
         TS_TRACE("Testing with Z = {1,2,3,4,5}");
         mat hermiteMatrix =
-        {
-            {1, 2, 2, -4, -20},
-            {1, 4, 14, 40, 76},
-            {1, 6, 34, 180, 876},
-            {1, 8, 62, 464, 3340},
-            {1, 10, 98, 940, 8812},
-        };
+            {
+                {1, 2, 2, -4, -20},
+                {1, 4, 14, 40, 76},
+                {1, 6, 34, 180, 876},
+                {1, 8, 62, 464, 3340},
+                {1, 10, 98, 940, 8812},
+            };
 
         mat hermiteFetch = testWithRealHermite.getPolynomeMat();
 

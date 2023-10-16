@@ -122,10 +122,10 @@ mat Solutions::solutions(unsigned int n, float start, float end, unsigned int in
  */
 float Solutions::verifOrthonormality(unsigned int p, unsigned int q)
 {
-    int deg = (p + q)/2;
+    int deg = (p + q) / 2;
     int n = deg - deg % 10 + 10; // finds the smaller multiple of ten above (p + q)/2
 
-    if (n>50)
+    if (n > 50)
     {
         throw std::invalid_argument("p + q must be lower than 99");
     }
@@ -154,5 +154,5 @@ float Solutions::verifOrthonormality(unsigned int p, unsigned int q)
     Hermite hermiteMat = Hermite(std::max(p, q), x); // creates the value of the Hermite polynomial
     hermiteMat.fillPolynomeHermite();
     mat H = w % hermiteMat.getPolynomeMat().col(p) % hermiteMat.getPolynomeMat().col(q);
-    return arma::accu(HComptite ) * C;
+    return arma::accu(H) * C;
 }

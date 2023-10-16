@@ -37,7 +37,7 @@ public:
     arma::vec z;
 
     /**
-     * this matrix contains
+     * @brief this matrix contains
      * [
      * [z0_computed z1_computed z2_computed z3_computed] n=0
      * [z0_computed z1_computed z2_computed z3_computed] n=1

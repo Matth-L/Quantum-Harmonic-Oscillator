@@ -11,6 +11,10 @@
 #include <cxxtest/TestSuite.h>
 using namespace arma;
 
+/**
+ * @brief this class tests the Solutions class
+ *
+ */
 class SolutionsTest : public CxxTest::TestSuite
 {
 public:
@@ -19,7 +23,11 @@ public:
     Solutions x2 = Solutions(1, 1, 1);
     Solutions x3 = Solutions(2, 9, 5);
 
-    // test the constructor
+    /**
+     * @test this function tests the constructor
+     * of the Solutions class.
+     * With 3 different Solutions objects.
+     */
     void testConstructorSolutions(void)
     {
         TS_TRACE("Starting test");
@@ -54,8 +62,17 @@ public:
         TS_TRACE("Test is DONE");
     }
 
+    /**
+     * @test this function tests the orthonormality
+     * with 3 different Solutions objects.
+     * It tests the orthonormality of the first 24 polynomes
+     * if i == j then the result should be 1
+     * Otherwise it should be 0
+     * @warning the delta is 1e-6
+     */
     void testOrthonormality(void)
     {
+        const double delta = 1e-6;
         TS_TRACE("Starting orthonormality test");
 
         // if i == j then the result should be 1
@@ -69,15 +86,15 @@ public:
                 float c = x3.verifOrthonormality(i, j);
                 if (i == j)
                 {
-                    TS_ASSERT_DELTA(a, 1, 0.0001);
-                    TS_ASSERT_DELTA(b, 1, 0.0001);
-                    TS_ASSERT_DELTA(c, 1, 0.0001);
+                    TS_ASSERT_DELTA(a, 1, delta);
+                    TS_ASSERT_DELTA(b, 1, delta);
+                    TS_ASSERT_DELTA(c, 1, delta);
                 }
                 else
                 {
-                    TS_ASSERT_DELTA(a, 0, 0.0001);
-                    TS_ASSERT_DELTA(b, 0, 0.0001);
-                    TS_ASSERT_DELTA(c, 0, 0.0001);
+                    TS_ASSERT_DELTA(a, 0, delta);
+                    TS_ASSERT_DELTA(b, 0, delta);
+                    TS_ASSERT_DELTA(c, 0, delta);
                 }
             }
         }
