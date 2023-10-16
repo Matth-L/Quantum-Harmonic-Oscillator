@@ -51,10 +51,7 @@ mat Schrodinger::psiZ_Squared(mat psi)
 {
     rowvec z = pow(psi.row(0), 2);
     psi.shed_row(0);
-    for (int i = 0; i < (int)psi.n_rows; i++)
-    {
-        psi.row(i) = z % psi.row(i);
-    }
+    psi.each_row() %= z;
     return psi;
 };
 
@@ -75,7 +72,7 @@ mat Schrodinger::schrodinger1DEquation(mat psi, double hbar, double omega, doubl
 
     // get the z_hat
     mat psiSquared = psiZ_Squared(psi);
-    psiSquared.shed_col(psiSquared.n_cols -1);
+    psiSquared.shed_col(psiSquared.n_cols - 1);
     psiSquared.shed_col(0);
 
     return -hbar * hbar / (2 * m) * sndDerivative + 0.5 * m * omega * omega * psiSquared;
@@ -123,7 +120,7 @@ mat Schrodinger::schrodinger1DEquation(mat psi, double hbar, double omega, doubl
 mat Schrodinger::secondDerivative(mat psi)
 {
     // Compute the squared step size
-    double dxSquared = pow(psi(0, 1) - psi(0, 0), 2);
+    double dxSquared = (psi(0, 1) - psi(0, 0)) * (psi(0, 1) - psi(0, 0));
 
     // Get the number of rows and columns in the input matrix
     int n = psi.n_rows;

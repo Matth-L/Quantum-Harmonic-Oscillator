@@ -7,7 +7,7 @@
 #ifndef SOLUTIONSTEST_H
 #define SOLUTIONSTEST_H
 
-#include "solutions.h"
+#include "../code/headers/solutions.h"
 #include <cxxtest/TestSuite.h>
 using namespace arma;
 
@@ -18,20 +18,21 @@ using namespace arma;
 class SolutionsTest : public CxxTest::TestSuite
 {
 public:
-    // parameters are supposed to be 1
     /**
      * @brief first object, all parameters are supposed to be 1
-     * 
+     *
      */
     Solutions x1 = Solutions();
+
     /**
      * @brief second object (supposed to be the same as the first one)
-     * 
+     *
      */
     Solutions x2 = Solutions(1, 1, 1);
+
     /**
      * @brief third object, with different units
-     * 
+     *
      */
     Solutions x3 = Solutions(2, 9, 5);
 
@@ -93,9 +94,9 @@ public:
         {
             for (int j = 0; j < 24; j++)
             {
-                float a = x1.verifOrthonormality(i, j);
-                float b = x2.verifOrthonormality(i, j);
-                float c = x3.verifOrthonormality(i, j);
+                double a = x1.verifOrthonormality(i, j);
+                double b = x2.verifOrthonormality(i, j);
+                double c = x3.verifOrthonormality(i, j);
                 if (i == j)
                 {
                     TS_ASSERT_DELTA(a, 1, delta);

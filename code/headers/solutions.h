@@ -13,45 +13,45 @@ class Solutions
 
 public:
     /**
-    *@brief The particle's mass [MeV/c^2]
-    */
-    float m;
+     *@brief The particle's mass [MeV/c^2]
+     */
+    double m;
     /**
      * @brief value for hbar [MeV.fs]
      *
      */
-    float hbar;
+    double hbar;
     /**
      * @brief value for omega
      *
      */
-    float omega;
+    double omega;
 
     /**
      * @brief get the particle's mass
      *
-     * @return float mass
+     * @return double mass
      */
-    float getM();
+    double getM();
 
     /**
      * @brief get hbar
      *
-     * @return float hbar
+     * @return double hbar
      */
-    float getHbar();
+    double getHbar();
 
     /**
      * @brief get omega
      *
-     * @return float omega
+     * @return double omega
      */
-    float getOmega();
+    double getOmega();
     /**
      * @brief Construct a new Solutions::solutions object
      *
      */
-    Solutions(float, float, float);
+    Solutions(double, double, double);
 
     /**
      * @brief Construct a new Solutions::solutions object
@@ -70,7 +70,7 @@ public:
      *  [ψn(z0), ψn​(z2),...,ψn(zp)] n=n
      * @return mat
      */
-    arma::mat solutions(unsigned int, float, float, unsigned int);
+    arma::mat solutions(unsigned int, double, double, unsigned int);
 
     /**
      * @brief Calcutate the solutions of the 1D quantum harmonic oscillator for 1 to n
@@ -83,9 +83,9 @@ public:
     /**
      * @brief Verifies the orthogonality for the two given value for n
      *
-     * @return float
+     * @return double
      */
-    float verifOrthonormality(unsigned int, unsigned int);
+    double verifOrthonormality(unsigned int, unsigned int);
 };
 
 #endif // SOLUTIONS_H

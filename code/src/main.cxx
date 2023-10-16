@@ -8,11 +8,12 @@ using namespace arma;
 
 int main()
 {
-    double m = 0.510998950;//[MeV/c^2]
-    double hbar = 6.582119569509067e-07;//[MeV.fs]
-    double omega = sqrt((1/*[N/m]*/*6.24151e-9 /*[MeV/c^2]*/)/m);
+    double m = 0.510998950;              //[MeV/c^2]
+    double hbar = 6.582119569509067e-07; //[MeV.fs]
+    double omega = sqrt((1 /*[N/m]*/ * 6.24151e-9 /*[MeV/c^2]*/) / m);
     int n = 5;
-    Solutions solUnit = Solutions(m,hbar,omega);
+
+    Solutions solUnit = Solutions(m, hbar, omega);
     Solutions sol = Solutions();
     mat res = solUnit.solutions(n, -5, 5, 500);
 
@@ -22,7 +23,7 @@ int main()
     mat schrodingerEquation = x.schrodinger1DEquation(res, hbar, omega, m);
 
     cout << "energy levels" << endl;
-    for (int i=0; i<n+1; i++)
+    for (int i = 0; i < n + 1; i++)
     {
         cout << x.energyLevels(hbar, omega, i) << endl;
     }
@@ -33,5 +34,8 @@ int main()
 
     mat energie = schrodingerEquation * pinv(res);
     cout << sum(energie) << endl;
+
+    cout << solUnit.verifOrthonormality(0, 0) << endl;
+
     return 0;
 }

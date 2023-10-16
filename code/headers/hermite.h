@@ -12,7 +12,7 @@
  * @brief Hermite's object containing :
  * - the value of n (int)
  * - a vector Z with all the values to be computed
- * - an array of all the formulas pre-computed (armadillo matrix)
+ * - a matrix containing the value of the hermite's polynome
  */
 class Hermite
 {
@@ -24,14 +24,14 @@ public:
     unsigned int n;
 
     /**
-     * @brief getter
+     * @brief getter used to get the value of n
      *
      * @return unsigned int
      */
     unsigned int getN();
 
     /**
-     * @brief vecteur Z
+     * @brief vector of z
      *
      */
     arma::vec z;
@@ -69,15 +69,17 @@ public:
 
     /**
      * @brief this class contains the initial value of N and the vector Z
+     * and create a new Hermite's object
      *
      */
     Hermite(unsigned int, arma::vec);
 
     /**
-     * @brief Construct a new Hermite object
+     * @brief this class uses n ,and the linspace to create a new Hermite's object
+     * Construct a new Hermite object
      *
      */
-    Hermite(unsigned int, float, float, float);
+    Hermite(unsigned int, double, double, int);
 
     /**
      * @brief compute the value of the hermite's polynome

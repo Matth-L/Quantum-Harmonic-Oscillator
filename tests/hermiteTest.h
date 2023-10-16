@@ -6,7 +6,8 @@
 #ifndef HERMITETEST_H
 #define HERMITETEST_H
 
-#include "hermite.h"
+#include "../code/headers/hermite.h"
+#include <armadillo>
 #include <cxxtest/TestSuite.h>
 using namespace arma;
 
@@ -27,30 +28,30 @@ class HermiteTest : public CxxTest::TestSuite
 public:
     /**
      * @brief array of values used for testing
-     * 
+     *
      */
     vec input = {2, 3, 4, 5, 6, 7};
 
-    // those 2 Hermite's object are supposed to be the same
     /**
      * @brief first object
-     * 
+     *
      */
     Hermite test = Hermite(7, input);
     /**
      * @brief second object (supposed to be the same as the first one)
-     * 
+     *
      */
     Hermite test2 = Hermite(7, 2, 7, 6);
     /**
-     * @brief third object
-     * 
+     * @brief third object with different value than the others
+     *
      */
     Hermite testWithRealHermite = Hermite(4, {1, 2, 3, 4, 5});
 
     /**
      * @test this function tests the constructor
      * of the Hermite class
+     * it tests each attributes
      */
     void testConstructor(void)
     {
@@ -90,7 +91,8 @@ public:
      * @test this function tests the filling method of the Hermite class
      * the test is done by comparing the result of the function
      * with values that were calculated by hand.
-     * It also compares values with 2 similar objects that were initialized differently
+     * It also compares values with 2 similar objects that were initialized
+     * differently
      * @warning the tolerance is set to 1e-6
      */
     void testFill(void)
@@ -111,17 +113,15 @@ public:
         TS_TRACE("Testing with Z = {1,2,3,4,5}");
         mat hermiteMatrix =
         {
-            {1, 2, 2, -4, -20},
-            {1, 4, 14, 40, 76},
-            {1, 6, 34, 180, 876},
-            {1, 8, 62, 464, 3340},
-            {1, 10, 98, 940, 8812},
+            {1, 2, 2, -4, -20},    {1, 4, 14, 40, 76},     {1, 6, 34, 180, 876},
+            {1, 8, 62, 464, 3340}, {1, 10, 98, 940, 8812},
         };
 
         mat hermiteFetch = testWithRealHermite.getPolynomeMat();
 
         // Vérifiez si les deux matrices sont approximativement égales
-        TS_ASSERT(arma::approx_equal(hermiteMatrix, hermiteFetch, "absdiff", tolerance));
+        TS_ASSERT(
+            arma::approx_equal(hermiteMatrix, hermiteFetch, "absdiff", tolerance));
 
         TS_TRACE("Comparison test DONE with theorical values");
 
@@ -132,16 +132,20 @@ public:
         TS_TRACE("Starting first column test");
         TS_ASSERT(arma::all(test.getPolynomeMat().col(0) == 1));
         TS_ASSERT(arma::all(test2.getPolynomeMat().col(0) == 1));
-        TS_ASSERT(arma::all(test.getPolynomeMat().col(0) == test2.getPolynomeMat().col(0)));
+        TS_ASSERT(arma::all(test.getPolynomeMat().col(0) ==
+                            test2.getPolynomeMat().col(0)));
         TS_TRACE("first column test DONE");
 
         //----------------------------------------
 
-        // testing if all the values are the same for test1 and test 2, due to floating point error, we use a tolerance
+        // testing if all the values are the same for test1 and test 2, due to
+        // floating point error, we use a tolerance
         TS_TRACE("Starting comparison test between similar object");
         for (int i = 0; i < test.getN(); i++)
         {
-            TS_ASSERT(arma::approx_equal(test.getPolynomeMat().col(i), test2.getPolynomeMat().col(i), "absdiff", tolerance));
+            TS_ASSERT(arma::approx_equal(test.getPolynomeMat().col(i),
+                                         test2.getPolynomeMat().col(i), "absdiff",
+                                         tolerance));
         }
         TS_TRACE("Comparison test DONE");
         TS_TRACE("Starting comparison test with true value ");

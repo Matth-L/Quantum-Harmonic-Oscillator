@@ -26,7 +26,7 @@ Hermite::Hermite(unsigned int nInput, arma::vec zInput)
  * @param highestValue
  * @param nbValue
  */
-Hermite::Hermite(unsigned int nInput, float lowestValue, float highestValue, float nbValue)
+Hermite::Hermite(unsigned int nInput, double lowestValue, double highestValue, int nbValue)
 {
     n = nInput;
 
@@ -78,6 +78,7 @@ mat Hermite::getPolynomeMat()
  */
 void Hermite::fillPolynomeHermite()
 {
+    vec twoZ = 2 * z;
     for (unsigned int n = 0; n <= getN(); n++)
     {
         if (n == 0)
@@ -88,12 +89,12 @@ void Hermite::fillPolynomeHermite()
         else if (n == 1)
         {
             // n=1 => H1 = 2z
-            polynomeMat.insert_cols(n, 2 * z);
+            polynomeMat.insert_cols(n, twoZ);
         }
         else
         {
             // n => Hn = 2zHn-1 - 2(n-1)Hn-2
-            polynomeMat.insert_cols(n, 2 * z % polynomeMat.col(n - 1) -
+            polynomeMat.insert_cols(n, twoZ % polynomeMat.col(n - 1) -
                                     2 * (n - 1) * polynomeMat.col(n - 2));
         }
     }

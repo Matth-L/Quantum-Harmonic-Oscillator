@@ -7,8 +7,8 @@
 #ifndef SCHRODINGERTEST_H
 #define SCHRODINGERTEST_H
 
-#include "../code/headers/solutions.h"
 #include "../code/headers/schrodinger.h"
+#include "../code/headers/solutions.h"
 #include <cxxtest/TestSuite.h>
 
 using namespace arma;
@@ -19,7 +19,6 @@ using namespace arma;
  */
 class SchrodingerTest : public CxxTest::TestSuite
 {
-
 public:
     /**
      * @test This function tests the energy levels
@@ -124,8 +123,8 @@ public:
     }
 
     /**
-     * @test this function tests the left part of the Schrodinger equation * psi^-1
-     * with the right part of the Schrodinger equation (the energy)
+     * @test this function tests the left part of the Schrodinger equation *
+     * psi^-1 with the right part of the Schrodinger equation (the energy)
      * @warning the tolerance is 1e-3 , beyond the test wont pass
      */
     void testEnergyComparison(void)
@@ -160,9 +159,8 @@ public:
         for (int i = 0; i < summedEnergie.n_cols - 1; i++)
         {
             // absdiff
-            TS_ASSERT_DELTA(summedEnergie(0, i), x.energyLevels(hbar, omega, i), tolerance);
-            cout << summedEnergie(0, i) << endl;
-            cout << x.energyLevels(hbar, omega, i) << endl;
+            TS_ASSERT_DELTA(summedEnergie(0, i), x.energyLevels(hbar, omega, i),
+                            tolerance);
         }
         TS_TRACE("TEST DONE");
     }

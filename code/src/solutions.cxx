@@ -1,3 +1,8 @@
+/**
+ * @file solutions.cxx
+ * @author Amaël Kreis
+ * @brief Class that computes the orthonormality of the solutions and the matrix psi
+ */
 #include "../headers/solutions.h"
 #include "../headers/hermite.h"
 using namespace arma;
@@ -9,7 +14,7 @@ using namespace arma;
  * @param hbarInput
  * @param omegaInput
  */
-Solutions::Solutions(float mInput, float hbarInput, float omegaInput)
+Solutions::Solutions(double mInput, double hbarInput, double omegaInput)
 {
     m = mInput;
     hbar = hbarInput;
@@ -29,9 +34,9 @@ Solutions::Solutions()
 /**
  * @brief get the particle's mass
  *
- * @return float mass
+ * @return double mass
  */
-float Solutions::getM()
+double Solutions::getM()
 {
     return m;
 }
@@ -39,9 +44,9 @@ float Solutions::getM()
 /**
  * @brief get hbar
  *
- * @return float hbar
+ * @return double hbar
  */
-float Solutions::getHbar()
+double Solutions::getHbar()
 {
     return hbar;
 }
@@ -49,9 +54,9 @@ float Solutions::getHbar()
 /**
  * @brief get omega
  *
- * @return float omega
+ * @return double omega
  */
-float Solutions::getOmega()
+double Solutions::getOmega()
 {
     return omega;
 }
@@ -71,16 +76,18 @@ float Solutions::getOmega()
  */
 mat Solutions::solutions(unsigned int n, arma::mat z)
 {
-    float cons = sqrt((m * omega) / hbar);
+    double cons = sqrt((m * omega) / hbar);
+    double prefactor = pow((m * omega) / (M_PI * hbar), 0.25);
     Hermite hermiteMat = Hermite(n, cons * z); // creates the value of the Hermite polynomial
     hermiteMat.fillPolynomeHermite();
 
     z = z.t();
     mat z2 = pow(z, 2);           // z to the power of 2
     mat A = mat(n + 1, z.n_cols); // A is the first part of the equation without Hn
+
     for (unsigned int i = 0; i < n + 1; i++)
     {
-        A.row(i) = (1 / (sqrt(pow(2, i) * tgamma(i + 1)))) * pow((m * omega) / (M_PI * hbar), 0.25) * exp(-((m * omega * z2) / (2 * hbar))); // filling up the matrix
+        A.row(i) = (1 / (sqrt(pow(2, i) * tgamma(i + 1)))) * prefactor * exp(-((m * omega * z2) / (2 * hbar))); // filling up the matrix
     }
 
     mat solution;
@@ -106,7 +113,7 @@ mat Solutions::solutions(unsigned int n, arma::mat z)
  * @param increment
  * @return mat
  */
-mat Solutions::solutions(unsigned int n, float start, float end, unsigned int increment)
+mat Solutions::solutions(unsigned int n, double start, double end, unsigned int increment)
 {
     mat z = linspace(start, end, increment); // creates all the values for z
     return Solutions::solutions(n, z);
@@ -118,19 +125,19 @@ mat Solutions::solutions(unsigned int n, float start, float end, unsigned int in
  *
  * @param p
  * @param q
- * @return float
+ * @return double
  */
-float Solutions::verifOrthonormality(unsigned int p, unsigned int q)
+double Solutions::verifOrthonormality(unsigned int p, unsigned int q)
 {
     int deg = (p + q) / 2;
     int n = deg - deg % 10 + 10; // finds the smaller multiple of ten above (p + q)/2
 
-    if (n > 50)
+    if (n >= 50)
     {
         throw std::invalid_argument("p + q must be lower than 99");
     }
 
-    float C = (1 / (sqrt(pow(2, p) * tgamma(p + 1)))) * pow((m * omega) / (M_PI * hbar), 0.25) * (1 / (sqrt(pow(2, q) * tgamma(q + 1)))) * pow((m * omega) / (M_PI * hbar), 0.25) * sqrt(hbar / (m * omega)); // constant
+    double C = (1 / (sqrt(pow(2, p) * tgamma(p + 1)))) * pow((m * omega) / (M_PI * hbar), 0.25) * (1 / (sqrt(pow(2, q) * tgamma(q + 1)))) * pow((m * omega) / (M_PI * hbar), 0.25) * sqrt(hbar / (m * omega)); // constant
     mat A;
     A.load("../code/data/nodes_weights", arma::csv_ascii); // loading the nodes and the weights
     mat x = A.row(n / 5 - 2);                              // nodes
