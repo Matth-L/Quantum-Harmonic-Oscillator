@@ -25,11 +25,27 @@ using namespace arma;
 class HermiteTest : public CxxTest::TestSuite
 {
 public:
+    /**
+     * @brief array of values used for testing
+     * 
+     */
     vec input = {2, 3, 4, 5, 6, 7};
 
     // those 2 Hermite's object are supposed to be the same
+    /**
+     * @brief first object
+     * 
+     */
     Hermite test = Hermite(7, input);
+    /**
+     * @brief second object (supposed to be the same as the first one)
+     * 
+     */
     Hermite test2 = Hermite(7, 2, 7, 6);
+    /**
+     * @brief third object
+     * 
+     */
     Hermite testWithRealHermite = Hermite(4, {1, 2, 3, 4, 5});
 
     /**

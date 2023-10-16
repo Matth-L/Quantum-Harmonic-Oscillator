@@ -19,8 +19,20 @@ class SolutionsTest : public CxxTest::TestSuite
 {
 public:
     // parameters are supposed to be 1
+    /**
+     * @brief first object, all parameters are supposed to be 1
+     * 
+     */
     Solutions x1 = Solutions();
+    /**
+     * @brief second object (supposed to be the same as the first one)
+     * 
+     */
     Solutions x2 = Solutions(1, 1, 1);
+    /**
+     * @brief third object, with different units
+     * 
+     */
     Solutions x3 = Solutions(2, 9, 5);
 
     /**
