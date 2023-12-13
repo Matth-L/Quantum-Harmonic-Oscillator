@@ -18,7 +18,7 @@ The quantum harmonic oscillator is used in the world of physics to describe the 
 This is an important model in quantum mechanics, therefore we will implement it in C++ and plot the values in Python. 
 To do so, we will use the hermite polynomials, the 1D schrodinger equation, 
 
-![plot]{/pres/f2.png}
+![plot](pres/f2.png)
 
 ## Requirements
 
