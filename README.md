@@ -37,14 +37,6 @@ for Debian distributions, you can install the libraries using the following comm
 sudo apt-get install libarmadillo-dev cxxtest python3 python3-matplotlib build-essential astyle doxygen
 ```
 
-## Installation
-
-To install this project on your computer, you can clone the repository using the following command:
-
-```sh
-git clone https://gitlab.pedago.ensiie.fr/romeo.louati/quantum-harmonic-oscillator.git 
-```
-
 ## Usage
 
 The result will be either computed using the C++ code or the Python code. The C++ code will be used to compute the values of the quantum harmonic oscillator and the Python code will be used to plot the values.
